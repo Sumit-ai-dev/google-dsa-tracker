@@ -2620,6 +2620,26 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
       localStorage.setItem(getProfileKey('revisits'), JSON.stringify(revisitMap));
     }
 
+    /* ========================================================
+       CRYPTOGRAPHIC SALTED SHA-256 SECURITY ENGINE
+       ======================================================== */
+    async function sha256Hex(str) {
+      const msgUint8 = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function generateSalt() {
+      const array = new Uint8Array(16);
+      crypto.getRandomValues(array);
+      return Array.from(array).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function computePasswordHash(password, salt) {
+      return await sha256Hex(`DSA_SECURE_SALT_v1_${salt}::${password}::PEPPER_2026`);
+    }
+
     let pendingSwitchProfileId = null;
 
     function attemptSwitchProfile(profileId) {
@@ -2627,7 +2647,7 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
       const targetProf = profilesList.find(p => p.id === profileId);
       if (!targetProf) return;
 
-      if (targetProf.pin) {
+      if (targetProf.hash || targetProf.pin) {
         pendingSwitchProfileId = profileId;
         const titleEl = document.getElementById('unlock-modal-title');
         const inputEl = document.getElementById('unlock-profile-pass-input');
@@ -2657,14 +2677,32 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
       pendingSwitchProfileId = null;
     }
 
-    function submitUnlockProfile() {
+    async function submitUnlockProfile() {
       if (!pendingSwitchProfileId) return;
       const targetProf = profilesList.find(p => p.id === pendingSwitchProfileId);
       const inputEl = document.getElementById('unlock-profile-pass-input');
       const errEl = document.getElementById('unlock-error-msg');
       const enteredPass = inputEl ? inputEl.value : '';
 
-      if (targetProf && targetProf.pin === enteredPass) {
+      if (!targetProf) return;
+
+      let isMatch = false;
+      if (targetProf.hash && targetProf.salt) {
+        const computed = await computePasswordHash(enteredPass, targetProf.salt);
+        isMatch = (computed === targetProf.hash);
+      } else if (targetProf.pin) {
+        // Automatic upgrade legacy plaintext pin to salted SHA-256 hash
+        isMatch = (targetProf.pin === enteredPass);
+        if (isMatch) {
+          const salt = generateSalt();
+          targetProf.salt = salt;
+          targetProf.hash = await computePasswordHash(enteredPass, salt);
+          delete targetProf.pin;
+          localStorage.setItem(KEY_PROFILES_LIST, JSON.stringify(profilesList));
+        }
+      }
+
+      if (isMatch) {
         const targetId = pendingSwitchProfileId;
         closeUnlockModal();
         switchProfile(targetId);
@@ -2703,7 +2741,7 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
       if (modal) modal.classList.remove('show');
     }
 
-    function submitCreateProfile() {
+    async function submitCreateProfile() {
       const nameInput = document.getElementById('new-profile-name-input');
       const passInput = document.getElementById('new-profile-pass-input');
       if (!nameInput || !nameInput.value.trim()) return;
@@ -2714,7 +2752,9 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
 
       const newProf = { id: newId, name: cleanName };
       if (passVal) {
-        newProf.pin = passVal;
+        const salt = generateSalt();
+        newProf.salt = salt;
+        newProf.hash = await computePasswordHash(passVal, salt);
       }
 
       profilesList.push(newProf);
@@ -2723,23 +2763,29 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
       switchProfile(newId);
     }
 
-    function promptManagePassword() {
+    async function promptManagePassword() {
       const activeProf = profilesList.find(p => p.id === activeProfileId);
       if (!activeProf) return;
 
       const dropdown = document.getElementById('profile-dropdown-menu');
       if (dropdown) dropdown.classList.remove('show');
 
-      const actionPrompt = confirm(`Password Settings for profile: "${activeProf.name}"\n\nCurrently Protected: ${activeProf.pin ? 'YES (Password Set)' : 'NO (Public Profile)'}\n\nClick OK to set/change password, or Cancel to leave unchanged.`);
+      const isProtected = !!(activeProf.hash || activeProf.pin);
+      const actionPrompt = confirm(`Password Settings for profile: "${activeProf.name}"\n\nCurrently Protected: ${isProtected ? 'YES (Cryptographic SHA-256 Hash Active)' : 'NO (Public Profile)'}\n\nClick OK to set/change password, or Cancel to leave unchanged.`);
       if (!actionPrompt) return;
 
-      const newPass = prompt(`Enter new password for profile "${activeProf.name}" (leave blank to make profile public):`, activeProf.pin || '');
+      const newPass = prompt(`Enter new password for profile "${activeProf.name}" (leave blank to make profile public):`);
       if (newPass === null) return;
 
       if (newPass.trim()) {
-        activeProf.pin = newPass.trim();
-        showToast(`Password updated for profile: ${activeProf.name}`);
+        const salt = generateSalt();
+        activeProf.salt = salt;
+        activeProf.hash = await computePasswordHash(newPass.trim(), salt);
+        delete activeProf.pin;
+        showToast(`Cryptographic password hash set for profile: ${activeProf.name}`);
       } else {
+        delete activeProf.salt;
+        delete activeProf.hash;
         delete activeProf.pin;
         showToast(`Password protection removed for profile: ${activeProf.name}`);
       }
@@ -2770,15 +2816,18 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
 
       const container = document.getElementById('profile-list-container');
       if (container) {
-        container.innerHTML = profilesList.map(p => `
-          <div class="profile-option-item ${p.id === activeProfileId ? 'active' : ''}" onclick="attemptSwitchProfile('${p.id}')">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span>${p.name}</span>
-              ${p.pin ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" title="Password Protected Profile"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>' : ''}
+        container.innerHTML = profilesList.map(p => {
+          const isLocked = !!(p.hash || p.pin);
+          return `
+            <div class="profile-option-item ${p.id === activeProfileId ? 'active' : ''}" onclick="attemptSwitchProfile('${p.id}')">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span>${p.name}</span>
+                ${isLocked ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" title="SHA-256 Password Protected Profile"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>' : ''}
+              </div>
+              ${p.id === activeProfileId ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
             </div>
-            ${p.id === activeProfileId ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
-          </div>
-        `).join('');
+          `;
+        }).join('');
       }
     }
 
