@@ -1,0 +1,3371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DSA Tracker - Google Material Design</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><path fill='%23EA4335' d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.66 0 6.58 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z'/><path fill='%234285F4' d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z'/><path fill='%23FBBC05' d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.28-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z'/><path fill='%2334A853' d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.58 42.62 14.66 48 24 48z'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Google Dark Theme (Material 3) */
+      --g-bg: #1e1f20;
+      --g-surface: #28292a;
+      --g-surface-variant: #303134;
+      --g-surface-hover: #35363a;
+      --g-border: #3c4043;
+      --g-border-subtle: rgba(255, 255, 255, 0.06);
+
+      --g-blue: #8ab4f8;
+      --g-blue-container: rgba(138, 180, 248, 0.15);
+      --g-blue-hover: #aecbfa;
+      --g-red: #f28b82;
+      --g-red-container: rgba(242, 139, 130, 0.15);
+      --g-yellow: #fdd663;
+      --g-yellow-container: rgba(253, 214, 99, 0.15);
+      --g-green: #81c995;
+      --g-green-container: rgba(129, 201, 149, 0.15);
+
+      --g-text-primary: #e3e3e3;
+      --g-text-secondary: #c4c7c5;
+      --g-text-tertiary: #8e918f;
+
+      --g-card-shadow: none;
+      --g-card-hover-shadow: none;
+      --header-bg: #1e1f20;
+      --search-bg: #28292a;
+      --search-border: #3c4043;
+      --chip-bg: #28292a;
+      --chip-text: #c4c7c5;
+
+      --font-google: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Roboto Mono', monospace;
+      --shape-pill: 9999px;
+      --shape-card: 16px;
+      --shape-inner: 8px;
+    }
+
+    /* Day Mode - Authentic Google Workspace / Cloud Console Palette (Zero Glare) */
+    body.light-mode {
+      --g-bg: #f0f4f9;              /* Soothing Google slate canvas */
+      --g-surface: #ffffff;         /* Crisp elevated white cards */
+      --g-surface-variant: #f8fafd; /* Clean Google inner container */
+      --g-surface-hover: #f1f5f9;   /* Subtle row hover */
+      --g-border: #e0e2e6;          /* Clean Google divider */
+      --g-border-subtle: #f1f3f4;
+
+      --g-blue: #1a73e8;            /* Signature Google Blue */
+      --g-blue-container: #e8f0fe;
+      --g-blue-hover: #1557b0;
+      --g-red: #d93025;             /* Signature Google Red */
+      --g-red-container: #fce8e6;
+      --g-yellow: #b06000;          /* Google Warm Amber for contrast */
+      --g-yellow-container: #fef7e0;
+      --g-green: #137333;           /* Signature Google Green */
+      --g-green-container: #e6f4ea;
+
+      --g-text-primary: #1f1f1f;     /* Deep Google charcoal */
+      --g-text-secondary: #444746;   /* Material 3 secondary text */
+      --g-text-tertiary: #747775;
+
+      --g-card-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.1), 0 1px 2px 0 rgba(60, 64, 67, 0.06);
+      --g-card-hover-shadow: 0 2px 6px 0 rgba(60, 64, 67, 0.12), 0 1px 3px 1px rgba(60, 64, 67, 0.08);
+      --header-bg: #ffffff;
+      --search-bg: #ffffff;
+      --search-border: #dadce0;
+      --chip-bg: #ffffff;
+      --chip-text: #444746;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-google);
+      background-color: var(--g-bg);
+      color: var(--g-text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 96px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    /* Google 4-Color Accent Line */
+    .google-bar {
+      height: 3px;
+      width: 100%;
+      background: linear-gradient(
+        90deg,
+        #4285F4 0%,
+        #4285F4 25%,
+        #EA4335 25%,
+        #EA4335 50%,
+        #FBBC05 50%,
+        #FBBC05 75%,
+        #34A853 75%,
+        #34A853 100%
+      );
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .container {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Google App Header */
+    header {
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--g-border);
+      padding: 14px 0;
+      position: sticky;
+      top: 3px;
+      z-index: 90;
+      box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.06);
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Genuine Google Multi-Color Logo Text */
+    .google-logo-letters {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      display: inline-flex;
+    }
+
+    .brand-title-text {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--g-text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .brand-subline {
+      font-size: 12px;
+      color: var(--g-text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 1px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* Theme Toggle Pill */
+    .theme-toggle-btn {
+      background: var(--g-surface-variant);
+      border: 1px solid var(--g-border);
+      color: var(--g-text-primary);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: var(--shape-pill);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .theme-toggle-btn:hover {
+      background: var(--g-surface-hover);
+      border-color: var(--g-blue);
+    }
+
+    .theme-icon-svg {
+      width: 15px;
+      height: 15px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Google Progress Indicator in Header */
+    .progress-box {
+      min-width: 200px;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--g-text-secondary);
+      margin-bottom: 5px;
+    }
+
+    .progress-percent-val {
+      color: var(--g-blue);
+      font-weight: 700;
+    }
+
+    .progress-track {
+      height: 5px;
+      background: var(--g-surface-variant);
+      border-radius: var(--shape-pill);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--g-blue);
+      width: 0%;
+      border-radius: var(--shape-pill);
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Google Cloud KPI Metric Cards Bar */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .kpi-card {
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      box-shadow: var(--g-card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .kpi-card-blue::before { background: #4285F4; }
+    .kpi-card-yellow::before { background: #FBBC05; }
+    .kpi-card-green::before { background: #34A853; }
+    .kpi-card-red::before { background: #EA4335; }
+
+    .kpi-label {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--g-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .kpi-value {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--g-text-primary);
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .kpi-subtext {
+      font-size: 11.5px;
+      color: var(--g-text-tertiary);
+    }
+
+    /* ========================================================
+       GOOGLE ACTIVITY DASHBOARD & MINI DOT MATRIX (IMAGE 2 STYLE)
+       ======================================================== */
+    .google-activity-dashboard-card {
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-radius: var(--shape-card);
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      box-shadow: var(--g-card-shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .activity-dash-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 250px;
+      flex: 1;
+    }
+
+    .streak-header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--g-yellow);
+      background: var(--g-yellow-container);
+      border: 1px solid rgba(176, 96, 0, 0.3);
+      padding: 4px 14px;
+      border-radius: var(--shape-pill);
+      width: fit-content;
+    }
+
+    .streak-flame-icon {
+      width: 18px;
+      height: 18px;
+      fill: var(--g-yellow);
+    }
+
+    .activity-substat {
+      font-size: 13px;
+      color: var(--g-text-secondary);
+      font-weight: 500;
+    }
+
+    .dash-quick-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .dash-field-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .g-field-label {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--g-text-secondary);
+    }
+
+    .g-input-field {
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--g-text-primary);
+      background: var(--g-surface-variant);
+      border: 1px solid var(--g-border);
+      border-radius: var(--shape-pill);
+      padding: 4px 10px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .g-input-field:focus {
+      border-color: var(--g-blue);
+    }
+
+    /* Authentic Image 2: Public Activity Dot Matrix (Google Style, Compact) */
+    .activity-dash-matrix-wrapper {
+      background: var(--g-surface-variant);
+      border: 1px solid var(--g-border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+
+    body:not(.light-mode) .activity-dash-matrix-wrapper {
+      background: #18191c;
+      border-color: #2b2e31;
+    }
+
+    .activity-matrix-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--g-text-secondary);
+      text-transform: uppercase;
+      align-self: flex-start;
+      margin-bottom: 2px;
+    }
+
+    body:not(.light-mode) .activity-matrix-title {
+      color: #9aa0a6;
+    }
+
+    .activity-week-headers {
+      display: grid;
+      grid-template-columns: repeat(7, 18px);
+      gap: 8px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--g-text-tertiary);
+    }
+
+    body:not(.light-mode) .activity-week-headers {
+      color: #80868b;
+    }
+
+    .activity-dots-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 18px);
+      gap: 8px;
+    }
+
+    .activity-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #dadce0;
+      transition: transform 0.15s ease, background 0.15s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    body:not(.light-mode) .activity-dot {
+      background: #2a2d30;
+    }
+
+    .activity-dot:hover {
+      transform: scale(1.3);
+    }
+
+    .activity-dot.active {
+      background: var(--g-blue);
+      box-shadow: 0 0 6px rgba(66, 133, 244, 0.4);
+    }
+
+    body:not(.light-mode) .activity-dot.active {
+      background: #00b0ff;
+      box-shadow: 0 0 8px rgba(0, 176, 255, 0.5);
+    }
+
+    .activity-dot.today {
+      outline: 2px solid var(--g-blue);
+      outline-offset: 2px;
+    }
+
+    body:not(.light-mode) .activity-dot.today {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
+
+    .activity-dot.today.active {
+      outline: 2px solid var(--g-blue);
+      outline-offset: 2px;
+      background: var(--g-blue);
+    }
+
+    body:not(.light-mode) .activity-dot.today.active {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+      background: #00b0ff;
+    }
+
+    .activity-matrix-footer {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: var(--g-text-tertiary);
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot-empty {
+      background: #dadce0;
+    }
+
+    body:not(.light-mode) .dot-empty {
+      background: #2a2d30;
+    }
+
+    .dot-active {
+      background: var(--g-blue);
+    }
+
+    body:not(.light-mode) .dot-active {
+      background: #00b0ff;
+    }
+
+    /* ========================================================
+       SMART RECOVERY ASSISTANT (MISSED DAYS & LONG GAP ENGINE)
+       ======================================================== */
+    .recovery-assistant-card {
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-radius: var(--shape-card);
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      box-shadow: var(--g-card-shadow);
+    }
+
+    .recovery-assistant-card.status-on-track {
+      border-left: 4px solid var(--g-green);
+      background: rgba(52, 168, 83, 0.05);
+    }
+
+    .recovery-assistant-card.status-minor-miss {
+      border-left: 4px solid var(--g-yellow);
+      background: rgba(251, 188, 5, 0.06);
+    }
+
+    .recovery-assistant-card.status-long-gap {
+      border-left: 4px solid var(--g-red);
+      background: rgba(234, 67, 53, 0.06);
+    }
+
+    .recovery-info-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .recovery-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--g-text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .recovery-desc {
+      font-size: 12px;
+      color: var(--g-text-secondary);
+      line-height: 1.45;
+    }
+
+    .recovery-actions-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .g-btn-recovery-primary {
+      background: var(--g-blue);
+      color: #ffffff;
+      border: none;
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: var(--shape-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .g-btn-recovery-primary:hover {
+      background: var(--g-blue-hover);
+    }
+
+    .g-btn-recovery-secondary {
+      background: transparent;
+      color: var(--g-text-secondary);
+      border: 1px solid var(--g-border);
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: var(--shape-pill);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .g-btn-recovery-secondary:hover {
+      border-color: var(--g-text-primary);
+      color: var(--g-text-primary);
+    }
+
+    /* ========================================================
+       DAY-BY-DAY STUDY JOURNEY COLUMN STYLES
+       ======================================================== */
+    .day-journey-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .journey-day-card {
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      box-shadow: var(--g-card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.15s ease;
+    }
+
+    .journey-day-card.is-today {
+      border-color: var(--g-blue);
+      box-shadow: 0 0 0 1px var(--g-blue), var(--g-card-shadow);
+    }
+
+    .journey-day-card.is-completed {
+      border-color: rgba(52, 168, 83, 0.4);
+      background: rgba(52, 168, 83, 0.03);
+    }
+
+    body.light-mode .journey-day-card.is-completed {
+      background: #f6fbf7;
+    }
+
+    .journey-day-card.is-missed {
+      border-color: rgba(234, 67, 53, 0.35);
+      background: rgba(234, 67, 53, 0.02);
+    }
+
+    .journey-day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .journey-day-title-box {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .journey-day-label {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--g-text-primary);
+    }
+
+    .journey-day-meta {
+      font-size: 12px;
+      color: var(--g-text-secondary);
+    }
+
+    .journey-day-badge {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: var(--shape-pill);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .journey-badge-done {
+      background: var(--g-green-container);
+      color: var(--g-green);
+    }
+
+    .journey-badge-today {
+      background: var(--g-blue-container);
+      color: var(--g-blue);
+    }
+
+    .journey-badge-upcoming {
+      background: var(--g-surface-variant);
+      color: var(--g-text-tertiary);
+    }
+
+    .journey-badge-missed {
+      background: var(--g-red-container);
+      color: var(--g-red);
+    }
+
+    .journey-problems-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .journey-problem-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: var(--g-surface-variant);
+      border-radius: 8px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .journey-problem-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .journey-problem-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--g-text-primary);
+      text-decoration: none;
+    }
+
+    .journey-problem-title:hover {
+      color: var(--g-blue);
+    }
+
+    .journey-problem-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .journey-review-reminder {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+      color: var(--g-yellow);
+      background: var(--g-yellow-container);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
+    .journey-milestone-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--g-red);
+      background: var(--g-red-container);
+      border: 1px solid rgba(234, 67, 53, 0.3);
+      padding: 8px 14px;
+      border-radius: 8px;
+    }
+
+    /* Google Search Pill */
+    .search-section {
+      margin-bottom: 16px;
+    }
+
+    .g-search-box {
+      display: flex;
+      align-items: center;
+      background: var(--search-bg);
+      border: 1px solid var(--search-border);
+      border-radius: var(--shape-pill);
+      padding: 8px 18px;
+      box-shadow: var(--g-card-shadow);
+      transition: all 0.2s ease;
+      gap: 10px;
+    }
+
+    .g-search-box:focus-within {
+      border-color: var(--g-blue);
+      box-shadow: 0 1px 6px 0 rgba(26, 115, 232, 0.25);
+    }
+
+    .g-search-icon {
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: var(--g-text-tertiary);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .g-search-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 13.5px;
+      color: var(--g-text-primary);
+      outline: none;
+    }
+
+    .g-search-input::placeholder {
+      color: var(--g-text-tertiary);
+    }
+
+    /* Google M3 Navigation Tabs */
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .tabs-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      background: var(--chip-bg);
+      border: 1px solid var(--g-border);
+      color: var(--chip-text);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 16px;
+      border-radius: var(--shape-pill);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--g-card-shadow);
+    }
+
+    .tab-btn:hover {
+      background: var(--g-surface-hover);
+      color: var(--g-text-primary);
+      border-color: var(--g-blue);
+    }
+
+    .tab-btn.active {
+      background: var(--g-blue);
+      color: #ffffff;
+      font-weight: 600;
+      border-color: var(--g-blue);
+    }
+
+    body.light-mode .tab-btn.active {
+      background: var(--g-blue);
+      color: #ffffff;
+      box-shadow: 0 1px 3px rgba(26, 115, 232, 0.4);
+    }
+
+    .tab-badge-count {
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: var(--shape-pill);
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .tab-btn.active .tab-badge-count {
+      background: rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+    }
+
+    /* Tab Panes */
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Controls Bar */
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .controls-desc {
+      font-size: 12.5px;
+      color: var(--g-text-secondary);
+    }
+
+    .g-btn-outlined {
+      background: transparent;
+      border: 1px solid var(--g-border);
+      color: var(--g-red);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: var(--shape-pill);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .g-btn-outlined:hover {
+      background: var(--g-red-container);
+      border-color: var(--g-red);
+    }
+
+    /* Technique Explanation Banner */
+    .technique-banner {
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-left: 4px solid var(--g-blue);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      box-shadow: var(--g-card-shadow);
+    }
+
+    .technique-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--g-blue);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .technique-body {
+      font-size: 12.5px;
+      color: var(--g-text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Material 3 Card Container */
+    .g-card {
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-radius: var(--shape-card);
+      margin-bottom: 12px;
+      overflow: hidden;
+      box-shadow: var(--g-card-shadow);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .g-card:hover {
+      border-color: #b5b8bd;
+      box-shadow: var(--g-card-hover-shadow);
+    }
+
+    .g-card-header {
+      padding: 13px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      background: var(--g-surface);
+      border-bottom: 1px solid transparent;
+    }
+
+    .g-card-header:hover {
+      background: var(--g-surface-hover);
+    }
+
+    .g-card:not(.collapsed) .g-card-header {
+      border-bottom-color: var(--g-border);
+    }
+
+    .phase-badge-pill {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--g-blue);
+      background: var(--g-blue-container);
+      border: 1px solid rgba(26, 115, 232, 0.25);
+      padding: 2px 9px;
+      border-radius: var(--shape-pill);
+      letter-spacing: 0.02em;
+    }
+
+    .phase-title-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--g-text-primary);
+      margin-left: 10px;
+    }
+
+    .card-meta-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .phase-stat {
+      font-size: 12px;
+      font-family: var(--font-mono);
+      color: var(--g-text-secondary);
+    }
+
+    .chevron-icon {
+      width: 15px;
+      height: 15px;
+      fill: none;
+      stroke: var(--g-text-secondary);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.2s ease;
+    }
+
+    .g-card.collapsed .chevron-icon {
+      transform: rotate(-90deg);
+    }
+
+    .g-card.collapsed .g-item-list {
+      display: none;
+    }
+
+    /* Problem List Rows */
+    .g-item-list {
+      background: var(--g-surface);
+    }
+
+    .g-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      gap: 14px;
+      border-bottom: 1px solid var(--g-border-subtle);
+      transition: background 0.15s ease;
+    }
+
+    .g-row:last-child {
+      border-bottom: none;
+    }
+
+    .g-row:hover {
+      background: var(--g-surface-hover);
+    }
+
+    .g-row-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* Google Style Checkbox */
+    .g-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--g-text-secondary);
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+      display: grid;
+      place-content: center;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+
+    .g-checkbox:hover {
+      border-color: var(--g-blue);
+    }
+
+    .g-checkbox:checked {
+      background: var(--g-blue);
+      border-color: var(--g-blue);
+    }
+
+    .g-checkbox:checked::before {
+      content: "";
+      width: 8px;
+      height: 4px;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: rotate(-45deg) translate(1px, -1px);
+    }
+
+    /* Tool Buttons: Bookmark & Spaced Repetition */
+    .icon-tool-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--g-text-tertiary);
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .icon-tool-btn:hover {
+      background: var(--g-surface-hover);
+      color: var(--g-text-secondary);
+    }
+
+    .icon-tool-btn.bookmarked {
+      color: var(--g-yellow);
+      background: var(--g-yellow-container);
+      border-color: rgba(253, 214, 99, 0.4);
+    }
+
+    .icon-tool-btn.review-active {
+      color: var(--g-blue);
+      background: var(--g-blue-container);
+      border-color: rgba(26, 115, 232, 0.3);
+    }
+
+    .tool-icon {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .icon-tool-btn.bookmarked .tool-icon {
+      fill: var(--g-yellow);
+    }
+
+    .g-row-content {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .problem-title-anchor {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--g-text-primary);
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .problem-title-anchor:hover {
+      color: var(--g-blue);
+      text-decoration: underline;
+    }
+
+    .link-ext-arrow {
+      font-size: 11px;
+      opacity: 0.6;
+    }
+
+    .row-subtitle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+      color: var(--g-text-secondary);
+      flex-wrap: wrap;
+    }
+
+    .pdf-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--g-text-tertiary);
+    }
+
+    .diff-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 7px;
+      border-radius: var(--shape-pill);
+    }
+
+    .diff-easy {
+      color: var(--g-green);
+      background: var(--g-green-container);
+    }
+
+    .diff-medium {
+      color: var(--g-yellow);
+      background: var(--g-yellow-container);
+    }
+
+    .diff-hard {
+      color: var(--g-red);
+      background: var(--g-red-container);
+    }
+
+    .tag-pill {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 7px;
+      border-radius: var(--shape-pill);
+    }
+
+    .tag-google {
+      background: var(--g-blue-container);
+      color: var(--g-blue);
+      border: 1px solid rgba(26, 115, 232, 0.25);
+    }
+
+    .tag-ms {
+      background: var(--g-green-container);
+      color: var(--g-green);
+      border: 1px solid rgba(19, 115, 51, 0.25);
+    }
+
+    /* Spaced Repetition Indicator Badges */
+    .revisit-badge {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 1px 8px;
+      border-radius: var(--shape-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .revisit-badge-upcoming {
+      color: var(--g-blue);
+      background: var(--g-blue-container);
+      border: 1px solid rgba(26, 115, 232, 0.25);
+    }
+
+    .revisit-badge-due {
+      color: var(--g-yellow);
+      background: var(--g-yellow-container);
+      border: 1px solid rgba(176, 96, 0, 0.35);
+      animation: pulseDue 2s infinite ease-in-out;
+    }
+
+    .revisit-badge-mastered {
+      color: var(--g-green);
+      background: var(--g-green-container);
+      border: 1px solid rgba(19, 115, 51, 0.25);
+    }
+
+    @keyframes pulseDue {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* Action Buttons (Watch & Solve) */
+    .row-buttons-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .g-btn-pill {
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 500;
+      text-decoration: none;
+      padding: 5px 13px;
+      border-radius: var(--shape-pill);
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    /* Solve: Google Blue Primary Action */
+    .g-btn-solve {
+      color: #ffffff;
+      background: var(--g-blue);
+      border: 1px solid var(--g-blue);
+      box-shadow: 0 1px 2px rgba(60, 64, 67, 0.25);
+    }
+
+    .g-btn-solve:hover {
+      background: var(--g-blue-hover);
+      border-color: var(--g-blue-hover);
+      box-shadow: 0 1px 3px 1px rgba(60, 64, 67, 0.3);
+    }
+
+    /* Watch: Google Subtle Outlined Action */
+    .g-btn-watch {
+      color: var(--g-text-primary);
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+    }
+
+    .g-btn-watch:hover {
+      background: var(--g-surface-hover);
+      color: var(--g-blue);
+      border-color: var(--g-blue);
+    }
+
+    .g-btn-review-action {
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: var(--shape-pill);
+      cursor: pointer;
+      background: var(--g-blue-container);
+      border: 1px solid rgba(26, 115, 232, 0.3);
+      color: var(--g-blue);
+      transition: all 0.15s ease;
+    }
+
+    .g-btn-review-action:hover {
+      background: var(--g-blue);
+      color: #ffffff;
+    }
+
+    .is-completed {
+      text-decoration: line-through;
+      color: var(--g-text-tertiary);
+    }
+
+    /* Patterns Grid */
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 12px;
+    }
+
+    .pattern-card {
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-radius: var(--shape-card);
+      padding: 16px 18px;
+      box-shadow: var(--g-card-shadow);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .pattern-card:hover {
+      border-color: var(--g-blue);
+      box-shadow: var(--g-card-hover-shadow);
+    }
+
+    .pattern-number {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--g-blue);
+    }
+
+    .pattern-heading {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--g-text-primary);
+      margin: 4px 0 6px 0;
+    }
+
+    .pattern-body {
+      font-size: 12.5px;
+      color: var(--g-text-secondary);
+      line-height: 1.45;
+    }
+
+    /* Python Snippet Box */
+    .code-card {
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-radius: var(--shape-card);
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: var(--g-card-shadow);
+    }
+
+    .code-card-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--g-blue);
+      margin-bottom: 10px;
+    }
+
+    .code-pre {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: var(--g-text-primary);
+      background: var(--g-surface-variant);
+      border: 1px solid var(--g-border);
+      border-radius: var(--shape-inner);
+      padding: 14px;
+      overflow-x: auto;
+      line-height: 1.6;
+    }
+
+    .empty-state {
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--g-text-secondary);
+      font-size: 13.5px;
+    }
+
+    .section-subhead {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--g-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 16px 0 8px 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ========================================================
+       GOOGLE DRIVE PDF VIEWER STYLES
+       ======================================================== */
+    .drive-header-card {
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-radius: var(--shape-card);
+      padding: 16px 20px;
+      margin-bottom: 14px;
+      box-shadow: var(--g-card-shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .drive-file-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .drive-icon-svg {
+      width: 26px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .drive-index-nav {
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-radius: var(--shape-card);
+      padding: 12px 18px;
+      margin-bottom: 14px;
+      box-shadow: var(--g-card-shadow);
+    }
+
+    .drive-index-title {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--g-blue);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .drive-chips-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .drive-chips-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .drive-chip {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--g-text-secondary);
+      background: var(--g-surface-variant);
+      border: 1px solid var(--g-border);
+      padding: 4px 12px;
+      border-radius: var(--shape-pill);
+      white-space: nowrap;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .drive-chip:hover {
+      background: var(--g-blue-container);
+      color: var(--g-blue);
+      border-color: var(--g-blue);
+    }
+
+    .pdf-viewer-frame-card {
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-radius: var(--shape-card);
+      overflow: hidden;
+      box-shadow: var(--g-card-shadow);
+    }
+
+    /* Modal / Popover for Event Details */
+    .g-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .g-modal-overlay.active {
+      display: flex;
+    }
+
+    .g-modal-card {
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      animation: modalSlide 0.2s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    @keyframes modalSlide {
+      from { transform: translateY(12px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .g-modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--g-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .g-modal-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .g-modal-actions {
+      padding: 12px 20px;
+      border-top: 1px solid var(--g-border);
+      background: var(--g-surface-variant);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    /* Google Snackbar / Toast */
+    #g-snackbar {
+      visibility: hidden;
+      min-width: 280px;
+      background-color: var(--g-surface-variant);
+      color: var(--g-text-primary);
+      border: 1px solid var(--g-border);
+      text-align: center;
+      border-radius: var(--shape-pill);
+      padding: 10px 20px;
+      position: fixed;
+      z-index: 1000;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      opacity: 0;
+      transition: opacity 0.25s, visibility 0.25s;
+    }
+
+    #g-snackbar.show {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Google 4-Color Accent Line -->
+  <div class="google-bar"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <div class="brand-group">
+          <div>
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+              <span class="google-logo-letters">
+                <span style="color: #4285F4">G</span><span style="color: #EA4335">o</span><span style="color: #FBBC05">o</span><span style="color: #4285F4">g</span><span style="color: #34A853">l</span><span style="color: #EA4335">e</span>
+              </span>
+              <span class="brand-title-text">DSA Tracker</span>
+            </div>
+            <div class="brand-subline">
+              <span>STEP &bull; Microsoft Explore</span>
+              <span>&bull;</span>
+              <span style="color: var(--g-blue);">57-Problem Core Syllabus</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <div class="progress-box">
+            <div class="progress-labels">
+              <span>Overall Progress</span>
+              <span class="progress-percent-val" id="percent-val">0%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="progress-meter"></div>
+            </div>
+            <div style="font-size: 11px; color: var(--g-text-tertiary); margin-top: 3px; text-align: right;" id="stat-count">
+              0 of 57 completed
+            </div>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()" title="Switch Day/Dark Theme">
+            <span id="theme-icon-container">
+              <svg class="theme-icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </span>
+            <span id="theme-label">Day Mode</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Google Cloud KPI Metric Cards Bar -->
+    <div class="kpi-row">
+      <div class="kpi-card kpi-card-blue">
+        <div class="kpi-label">Syllabus Completion</div>
+        <div class="kpi-value" id="kpi-solved-val">0 <span style="font-size: 13px; font-weight: normal; color: var(--g-text-tertiary);">/ 57</span></div>
+        <div class="kpi-subtext" id="kpi-percent-sub">0% mastered</div>
+      </div>
+
+      <div class="kpi-card kpi-card-yellow">
+        <div class="kpi-label">Spaced Repetition</div>
+        <div class="kpi-value" id="kpi-revisit-val">0 <span style="font-size: 13px; font-weight: normal; color: var(--g-text-tertiary);">due</span></div>
+        <div class="kpi-subtext" id="kpi-revisit-sub">0 active in Ebbinghaus queue</div>
+      </div>
+
+      <div class="kpi-card kpi-card-green">
+        <div class="kpi-label">Target Companies</div>
+        <div class="kpi-value">20 <span style="font-size: 13px; font-weight: normal; color: var(--g-text-tertiary);">core</span></div>
+        <div class="kpi-subtext">10 Google STEP &bull; 10 Microsoft</div>
+      </div>
+
+      <div class="kpi-card kpi-card-red">
+        <div class="kpi-label">Bookmarks & Starred</div>
+        <div class="kpi-value" id="kpi-bookmark-val">0 <span style="font-size: 13px; font-weight: normal; color: var(--g-text-tertiary);">saved</span></div>
+        <div class="kpi-subtext">Quick pre-interview review</div>
+      </div>
+    </div>
+
+    <!-- GOOGLE ACTIVITY DASHBOARD & MINI DOT MATRIX (IMAGE 2 COMPACT STYLE) -->
+    <div class="google-activity-dashboard-card" id="activity-dashboard-card">
+      <div class="activity-dash-left">
+        <div class="streak-header-badge">
+          <!-- Flame / Spark SVG -->
+          <svg class="streak-flame-icon" viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2 0 .74-.4 1.38-1 1.72v2.34C16.89 8.56 20 12.01 20 16.14 20 20.48 16.42 24 12 24s-8-3.52-8-7.86c0-4.13 3.11-7.58 7-8.08V5.72C10.4 5.38 10 4.74 10 4c0-1.1.9-2 2-2zm0 10c-2.21 0-4 1.79-4 4 0 2.21 1.79 4 4 4s4-1.79 4-4c0-2.21-1.79-4-4-4z"/></svg>
+          <span id="activity-streak-val">0 Day Streak</span>
+        </div>
+        <div class="activity-substat" id="activity-today-target">Today: 0 / 2 Solved</div>
+        <div class="activity-substat" id="activity-stage-info" style="color: var(--g-blue); font-weight: 500;">Current: Day 1 • Foundations & Arrays</div>
+
+        <div class="dash-quick-controls">
+          <div class="dash-field-row">
+            <label for="cal-start-date" class="g-field-label">Start Point:</label>
+            <input type="date" id="cal-start-date" class="g-input-field" onchange="onStartDateChange(this.value)">
+          </div>
+          <div class="dash-field-row">
+            <label for="cal-pace-select" class="g-field-label">Pace:</label>
+            <select id="cal-pace-select" class="g-input-field" onchange="onPaceChange(this.value)">
+              <option value="1">1 / day</option>
+              <option value="2" selected>2 / day</option>
+              <option value="3">3 / day</option>
+            </select>
+          </div>
+          <button class="g-btn-pill g-btn-solve" onclick="exportICSCalendar()" title="Download .ICS to import full schedule into Google Calendar">
+            Export .ICS
+          </button>
+        </div>
+      </div>
+
+      <!-- Compact Study Activity Dot Matrix (Image 2 style in Google aesthetics) -->
+      <div class="activity-dash-matrix-wrapper">
+        <div class="activity-matrix-title">PUBLIC ACTIVITY</div>
+        <div class="activity-week-headers">
+          <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+        </div>
+        <div class="activity-dots-grid" id="activity-dots-grid">
+          <!-- 4 rows x 7 columns = 28 day dots populated by JavaScript -->
+        </div>
+        <div class="activity-matrix-footer">
+          <span>Less</span>
+          <span class="legend-dot dot-empty"></span>
+          <span class="legend-dot dot-active"></span>
+          <span>More</span>
+          <span style="margin-left: auto;" id="activity-total-active">0 Active Days</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Search Pill -->
+    <div class="search-section">
+      <div class="g-search-box">
+        <svg class="g-search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="g-search-input" class="g-search-input" placeholder="Search 57 problems (e.g., 'Two Sum', 'Sliding Window', 'LC 200', 'Google', 'Phase 4')..." oninput="handleSearch(this.value)">
+      </div>
+    </div>
+
+    <!-- Google M3 Navigation Tabs -->
+    <nav class="tabs-nav" role="tablist">
+      <button class="tab-btn active" onclick="switchGoogleTab('tab-journey', this)">
+        <span>Day-by-Day Journey</span>
+      </button>
+      <button class="tab-btn" onclick="switchGoogleTab('tab-roadmap', this)">
+        <span>9-Phase Topics</span>
+      </button>
+      <button class="tab-btn" onclick="switchGoogleTab('tab-pdf', this)">
+        <!-- Google Drive Triangle Icon -->
+        <svg style="width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2;" viewBox="0 0 24 24"><polygon points="12 2 2 22 22 22"></polygon></svg>
+        <span>PDF Reference</span>
+      </button>
+      <button class="tab-btn" onclick="switchGoogleTab('tab-revisit', this)">
+        <span>Revisit Queue</span>
+        <span class="tab-badge-count" id="revisit-badge">0</span>
+      </button>
+      <button class="tab-btn" onclick="switchGoogleTab('tab-bookmarks', this)">
+        <span>Bookmarks</span>
+        <span class="tab-badge-count" id="bookmark-badge">0</span>
+      </button>
+      <button class="tab-btn" onclick="switchGoogleTab('tab-google-step', this)">
+        <span>Google STEP Focus</span>
+      </button>
+      <button class="tab-btn" onclick="switchGoogleTab('tab-microsoft', this)">
+        <span>Microsoft Explore Focus</span>
+      </button>
+      <button class="tab-btn" onclick="switchGoogleTab('tab-patterns', this)">
+        <span>15 Core Patterns</span>
+      </button>
+      <button class="tab-btn" onclick="switchGoogleTab('tab-python', this)">
+        <span>Python Reference</span>
+      </button>
+    </nav>
+
+    <!-- TAB 1: Day-by-Day Journey (PRIMARY COLUMN) -->
+    <section id="tab-journey" class="tab-content active">
+      <!-- Smart Missed Days & Long Gap Recovery Assistant -->
+      <div id="recovery-assistant-container"></div>
+
+      <!-- Day-by-Day Sequential Timeline -->
+      <div class="day-journey-container" id="day-journey-list"></div>
+    </section>
+
+    <!-- TAB 2: 9-Phase Roadmap -->
+    <section id="tab-roadmap" class="tab-content">
+      <div class="controls-bar">
+        <span class="controls-desc">Tick checkbox on solve to extend your streak and auto-schedule Spaced Repetition review. Click 'Watch' or 'Solve' to open in a separate tab.</span>
+        <button class="g-btn-outlined" onclick="resetProgress()">Reset All Progress</button>
+      </div>
+
+      <div id="all-phases-container"></div>
+    </section>
+
+    <!-- TAB 2: PDF Syllabus Reference -->
+    <section id="tab-pdf" class="tab-content">
+      <!-- Google Drive Style Header -->
+      <div class="drive-header-card">
+        <div class="drive-file-meta">
+          <svg class="drive-icon-svg" viewBox="0 0 87.3 78">
+            <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
+            <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44c-.8 1.4-1.2 2.95-1.2 4.5h27.5z" fill="#00ac47"/>
+            <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.5l5.85 10.15z" fill="#ea4335"/>
+            <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
+            <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
+            <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
+          </svg>
+          <div>
+            <div style="font-size: 15px; font-weight: 600; color: var(--g-text-primary);">
+              Master DSA using GFG and Leetcode - Sheet1.pdf
+            </div>
+            <div style="font-size: 12px; color: var(--g-text-secondary);">
+              Code and Debug &bull; 230 Topics & Video Tutorials &bull; Mapped to 57 Core Archetypes
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <a href="Master%20DSA%20using%20GFG%20and%20Leetcode%20-%20Sheet1.pdf" target="_blank" rel="noopener noreferrer" class="g-btn-pill g-btn-solve">
+            Open in New Tab ↗
+          </a>
+          <a href="Master%20DSA%20using%20GFG%20and%20Leetcode%20-%20Sheet1.pdf" download class="g-btn-pill g-btn-watch">
+            Download PDF ⤓
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Section Jump Chips -->
+      <div class="drive-index-nav">
+        <div class="drive-index-title">Quick Chapter Navigation Index:</div>
+        <div class="drive-chips-scroll">
+          <a href="#tab-roadmap" onclick="switchGoogleTab('tab-roadmap', document.querySelectorAll('.tab-btn')[0])" class="drive-chip">Sec 1: Complexity & Hashing</a>
+          <a href="#tab-roadmap" onclick="switchGoogleTab('tab-roadmap', document.querySelectorAll('.tab-btn')[0])" class="drive-chip">Sec 3: Arrays & In-Place</a>
+          <a href="#tab-roadmap" onclick="switchGoogleTab('tab-roadmap', document.querySelectorAll('.tab-btn')[0])" class="drive-chip">Sec 4: Binary Search</a>
+          <a href="#tab-roadmap" onclick="switchGoogleTab('tab-roadmap', document.querySelectorAll('.tab-btn')[0])" class="drive-chip">Sec 6: Linked Lists</a>
+          <a href="#tab-roadmap" onclick="switchGoogleTab('tab-roadmap', document.querySelectorAll('.tab-btn')[0])" class="drive-chip">Sec 8: Recursion & Backtracking</a>
+          <a href="#tab-roadmap" onclick="switchGoogleTab('tab-roadmap', document.querySelectorAll('.tab-btn')[0])" class="drive-chip">Sec 9: Stacks & Deque</a>
+          <a href="#tab-roadmap" onclick="switchGoogleTab('tab-roadmap', document.querySelectorAll('.tab-btn')[0])" class="drive-chip">Sec 10: Sliding Window</a>
+          <a href="#tab-roadmap" onclick="switchGoogleTab('tab-roadmap', document.querySelectorAll('.tab-btn')[0])" class="drive-chip">Sec 12: Binary Trees</a>
+          <a href="#tab-roadmap" onclick="switchGoogleTab('tab-roadmap', document.querySelectorAll('.tab-btn')[0])" class="drive-chip">Sec 13: BST</a>
+          <a href="#tab-roadmap" onclick="switchGoogleTab('tab-roadmap', document.querySelectorAll('.tab-btn')[0])" class="drive-chip">Sec 15: Graphs & BFS/DFS</a>
+          <a href="#tab-roadmap" onclick="switchGoogleTab('tab-roadmap', document.querySelectorAll('.tab-btn')[0])" class="drive-chip">Sec 16: Dynamic Programming</a>
+        </div>
+      </div>
+
+      <!-- Embedded PDF Frame -->
+      <div class="pdf-viewer-frame-card">
+        <iframe id="dsa-pdf-frame" src="Master%20DSA%20using%20GFG%20and%20Leetcode%20-%20Sheet1.pdf#toolbar=1" width="100%" height="820px" style="border: none; display: block; background: var(--g-surface);"></iframe>
+      </div>
+    </section>
+
+    <!-- TAB 3: Spaced Repetition Revisit Queue -->
+    <section id="tab-revisit" class="tab-content">
+      <div class="technique-banner">
+        <div class="technique-title">
+          <svg style="width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          The Ebbinghaus Spaced Repetition Technique
+        </div>
+        <div class="technique-body">
+          Human memory retention drops 70% within 48 hours. By testing yourself on each problem after <strong>3 Days (Stage 1)</strong>, <strong>7 Days (Stage 2)</strong>, and <strong>14 Days (Stage 3)</strong> without referencing solutions, the algorithmic pattern transfers into permanent synaptic memory for Google Docs & Codility live rounds.
+        </div>
+      </div>
+
+      <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="font-size: 15px; font-weight: 500; color: var(--g-text-primary);">Active Review Schedule</h2>
+        <span style="font-size: 12px; color: var(--g-text-secondary);" id="revisit-stats-summary">0 scheduled</span>
+      </div>
+
+      <div id="revisit-groups-container"></div>
+    </section>
+
+    <!-- TAB 4: Bookmarks -->
+    <section id="tab-bookmarks" class="tab-content">
+      <div style="margin-bottom: 16px;">
+        <h2 style="font-size: 16px; font-weight: 500; margin-bottom: 4px; color: var(--g-yellow);">Bookmarked Questions</h2>
+        <p style="font-size: 13px; color: var(--g-text-secondary);">
+          Starred questions you want to keep handy for quick review before your interviews.
+        </p>
+      </div>
+      <div class="g-card">
+        <div class="g-item-list" id="bookmark-list-container">
+          <div class="empty-state">No bookmarked questions. Click the star icon on any problem to pin it here.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: Google STEP Focus -->
+    <section id="tab-google-step" class="tab-content">
+      <div style="margin-bottom: 16px;">
+        <h2 style="font-size: 16px; font-weight: 500; margin-bottom: 4px; color: var(--g-blue);">Google STEP Priority: Top 10 High-Frequency Questions</h2>
+        <p style="font-size: 13px; color: var(--g-text-secondary);">
+          Conducted on Google Docs without an IDE. Evaluates sliding window, prefix sums, binary search on answers, and tree/graph traversals.
+        </p>
+      </div>
+      <div class="g-card">
+        <div class="g-item-list" id="google-step-container"></div>
+      </div>
+    </section>
+
+    <!-- TAB 6: Microsoft Explore Focus -->
+    <section id="tab-microsoft" class="tab-content">
+      <div style="margin-bottom: 16px;">
+        <h2 style="font-size: 16px; font-weight: 500; margin-bottom: 4px; color: var(--g-green);">Microsoft Explore Priority: Top 10 Signature Questions</h2>
+        <p style="font-size: 13px; color: var(--g-text-secondary);">
+          Online assessment (Codility/Mettl) and technical rounds. Heavy focus on pointer manipulation, BST validation, and OOP.
+        </p>
+      </div>
+      <div class="g-card">
+        <div class="g-item-list" id="microsoft-container"></div>
+      </div>
+    </section>
+
+    <!-- TAB 7: 15 Core Patterns -->
+    <section id="tab-patterns" class="tab-content">
+      <div style="margin-bottom: 16px;">
+        <h2 style="font-size: 16px; font-weight: 500; margin-bottom: 4px;">15 Core Patterns Reference</h2>
+        <p style="font-size: 13px; color: var(--g-text-secondary);">
+          Identify which category a problem belongs to before writing code.
+        </p>
+      </div>
+
+      <div class="pattern-grid">
+        <div class="pattern-card">
+          <div class="pattern-number">01</div>
+          <div class="pattern-heading">Sliding Window</div>
+          <div class="pattern-body">Subarray/substring problems with max, min, sum, or frequency constraints (e.g., LC 3, LC 1004).</div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-number">02</div>
+          <div class="pattern-heading">Two Pointers</div>
+          <div class="pattern-body">Sorted array problems, pair-sums, in-place partitions, and duplicate removals (e.g., LC 15, LC 26).</div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-number">03</div>
+          <div class="pattern-heading">Fast & Slow Pointers</div>
+          <div class="pattern-body">Cycle detection, finding the middle of a linked list, or circular array traversal (e.g., LC 141, LC 876).</div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-number">04</div>
+          <div class="pattern-heading">Binary Search</div>
+          <div class="pattern-body">Sorted arrays, rotated arrays, or finding the optimal value in a monotonic answer space (e.g., LC 33, LC 875).</div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-number">05</div>
+          <div class="pattern-heading">Prefix Sum</div>
+          <div class="pattern-body">Range sum queries and continuous subarray sums equals K using a frequency hash map (e.g., LC 560).</div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-number">06</div>
+          <div class="pattern-heading">Greedy Algorithms</div>
+          <div class="pattern-body">When a locally optimal choice leads to a globally optimal outcome (e.g., LC 121, LC 55).</div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-number">07</div>
+          <div class="pattern-heading">Backtracking</div>
+          <div class="pattern-body">Recursion on decision trees: subsets, permutations, combinations, and pruning invalid branches (e.g., LC 78, LC 39).</div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-number">08</div>
+          <div class="pattern-heading">1D Dynamic Programming</div>
+          <div class="pattern-body">Linear state transitions where current solution depends on previous subproblems (e.g., LC 70, LC 198).</div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-number">09</div>
+          <div class="pattern-heading">2D / Grid DP</div>
+          <div class="pattern-body">Grid navigation paths, matrix path sums, and longest common subsequence (e.g., LC 62).</div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-number">10</div>
+          <div class="pattern-heading">Bit Manipulation</div>
+          <div class="pattern-body">XOR cancellation tricks (A ^ A = 0), bitmask state tracking, and checking set bits (e.g., LC 136).</div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-number">11</div>
+          <div class="pattern-heading">Hashing & Frequency</div>
+          <div class="pattern-body">O(1) lookups, counting anagram frequencies, and checking element existence (e.g., LC 1, LC 49, LC 128).</div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-number">12</div>
+          <div class="pattern-heading">Graphs - BFS/DFS</div>
+          <div class="pattern-body">Connected components, 2D matrix flood fill, and unweighted shortest path search (e.g., LC 200, LC 994).</div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-number">13</div>
+          <div class="pattern-heading">Topological Sort</div>
+          <div class="pattern-body">Directed Acyclic Graph (DAG) dependency ordering and cycle detection using Kahn's algorithm (e.g., LC 207).</div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-number">14</div>
+          <div class="pattern-heading">Trees - DFS Patterns</div>
+          <div class="pattern-body">Recursive subtree height, lowest common ancestor, path sums, and BST validation (e.g., LC 104, LC 236, LC 98).</div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-number">15</div>
+          <div class="pattern-heading">Heaps & Priority Queues</div>
+          <div class="pattern-body">Extracting Top-K elements, k-way sorted list merges, and task scheduling (e.g., LC 347, LC 215).</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 8: Python Reference -->
+    <section id="tab-python" class="tab-content">
+      <div style="margin-bottom: 16px;">
+        <h2 style="font-size: 16px; font-weight: 500; margin-bottom: 4px; color: var(--g-blue);">Python Standard Library Reference</h2>
+        <p style="font-size: 13px; color: var(--g-text-secondary);">
+          Standard library modules and patterns for technical interviews.
+        </p>
+      </div>
+
+      <div class="code-card">
+        <div class="code-card-title">1. Frequency Counting & Safe Dictionaries (collections)</div>
+        <pre class="code-pre">from collections import Counter, defaultdict, deque
+
+# Counter: Count element frequencies in O(N)
+counts = Counter([1, 2, 2, 3, 3, 3])      # Counter({3: 3, 2: 2, 1: 1})
+print(counts[999])                         # Returns 0 (No KeyError)
+
+# defaultdict: Automatically initialize missing keys
+graph = defaultdict(list)
+graph["A"].append("B")                     # Key "A" is initialized automatically
+
+freq_map = defaultdict(int)
+freq_map["apple"] += 1</pre>
+      </div>
+
+      <div class="code-card">
+        <div class="code-card-title">2. Double-Ended Queue for BFS (collections.deque)</div>
+        <pre class="code-pre"># Note: In Python, list.pop(0) is O(N) due to element shifting.
+# deque.popleft() is O(1).
+queue = deque([root_node])
+
+while queue:
+    level_size = len(queue)
+    for _ in range(level_size):
+        node = queue.popleft()
+        if node.left:
+            queue.append(node.left)
+        if node.right:
+            queue.append(node.right)</pre>
+      </div>
+
+      <div class="code-card">
+        <div class="code-card-title">3. Min-Heap & Max-Heap (heapq)</div>
+        <pre class="code-pre">import heapq
+
+# Min-Heap (default in Python)
+min_heap = []
+heapq.heappush(min_heap, 10)
+heapq.heappush(min_heap, 5)
+smallest = heapq.heappop(min_heap)          # Returns 5 in O(log N)
+
+# Max-Heap (invert values to simulate max-heap)
+max_heap = []
+heapq.heappush(max_heap, -10)
+heapq.heappush(max_heap, -5)
+largest = -heapq.heappop(max_heap)          # Returns 10</pre>
+      </div>
+
+      <div class="code-card">
+        <div class="code-card-title">4. Binary Search Module (bisect)</div>
+        <pre class="code-pre">import bisect
+
+arr = [10, 20, 30, 40, 50]
+# Find first index where 25 can be inserted to maintain order
+idx = bisect.bisect_left(arr, 25)           # idx = 2
+exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
+      </div>
+    </section>
+  </main>
+
+  <!-- Google Calendar Event Modal -->
+  <div id="g-modal-overlay" class="g-modal-overlay" onclick="closeModal(event)">
+    <div class="g-modal-card" onclick="event.stopPropagation()">
+      <div class="g-modal-header">
+        <div style="font-size: 15px; font-weight: 600; color: var(--g-text-primary);" id="modal-event-title">Event Title</div>
+        <button class="icon-tool-btn" onclick="closeModal()">
+          <svg class="tool-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="g-modal-body" id="modal-event-body">
+        <!-- Injected dynamically -->
+      </div>
+      <div class="g-modal-actions">
+        <button class="g-btn-pill g-btn-watch" onclick="closeModal()">Close</button>
+        <a id="modal-btn-gcal" href="#" target="_blank" rel="noopener noreferrer" class="g-btn-pill g-btn-solve">
+          Add to My Google Calendar ↗
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Google Material 3 Snackbar / Toast -->
+  <div id="g-snackbar">Notification</div>
+
+  <script>
+    // All 57 Problems Data Structure with exact Video & Solve links from PDF
+    const PHASES_DATA = [
+      {
+        phaseId: 1,
+        title: "Foundations & Time Complexity",
+        problems: [
+          { id: 1, title: "Time & Space Complexity Theory", pdf: "PDF Sec 1.1", diff: "Easy", desc: "O(1) < O(log N) < O(N) < O(N log N) < O(N²)", video: "https://youtu.be/bLm0wgPU-6A", solve: "https://codeanddebug.in/blog/time-complexity-and-space-complexity-in-dsa/" },
+          { id: 2, title: "Complexity of Common Python Operations", pdf: "PDF Sec 1.1", diff: "Easy", desc: "list.pop(0) is O(N) vs deque.popleft() is O(1)", video: "https://youtu.be/PLV0f4RAMvI", solve: "https://codeanddebug.in" },
+          { id: 3, title: "Frequency Storage & Hashing Basics", pdf: "PDF Sec 1.4", diff: "Easy", desc: "dict and Counter O(1) lookups", video: "https://youtu.be/Ocd_uHpsQyg", solve: "https://youtu.be/0IE5T63qEHg" }
+        ]
+      },
+      {
+        phaseId: 2,
+        title: "Arrays, In-Place Manipulation & Hashing",
+        problems: [
+          { id: 4, title: "Largest Element in Array", pdf: "PDF Sec 3.1", diff: "Easy", video: "https://youtu.be/H52p90uVUGA", solve: "https://www.geeksforgeeks.org/problems/largest-element-in-array/1" },
+          { id: 5, title: "Second Largest Element", pdf: "PDF Sec 3.1", diff: "Easy", video: "https://youtu.be/Z6TwNJJ9OoQ", solve: "https://www.geeksforgeeks.org/problems/second-largest3735/1" },
+          { id: 6, title: "Remove Duplicates from Sorted Array (LC 26)", pdf: "PDF Sec 3.1", diff: "Easy", tag: "ms", video: "https://youtu.be/a2gP9uYrpQo", solve: "https://leetcode.com/problems/remove-duplicates-from-sorted-array/" },
+          { id: 7, title: "Move Zeroes (LC 283)", pdf: "PDF Sec 3.1", diff: "Easy", video: "https://youtu.be/GtssSuFh_Ek", solve: "https://leetcode.com/problems/move-zeroes/" },
+          { id: 8, title: "Missing Number (LC 268)", pdf: "PDF Sec 3.1", diff: "Easy", video: "https://youtu.be/Zo1d2EqX45U", solve: "https://leetcode.com/problems/missing-number/" },
+          { id: 9, title: "Max Consecutive Ones (LC 485)", pdf: "PDF Sec 3.1", diff: "Easy", video: "https://youtu.be/1QLnjtdEl9Y", solve: "https://leetcode.com/problems/max-consecutive-ones/" },
+          { id: 10, title: "Two Sum (LC 1)", pdf: "PDF Sec 3.2", diff: "Easy", tag: "both", video: "https://youtu.be/EX2tR_cgCz4", solve: "https://leetcode.com/problems/two-sum/" },
+          { id: 11, title: "Kadane's Algorithm / Maximum Subarray (LC 53)", pdf: "PDF Sec 3.2", diff: "Medium", tag: "ms", video: "https://youtu.be/o3luQXt08W8", solve: "https://leetcode.com/problems/maximum-subarray/" },
+          { id: 12, title: "Stock Buy and Sell (LC 121)", pdf: "PDF Sec 3.2", diff: "Easy", video: "https://youtu.be/tGrDqGxWsmc", solve: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" },
+          { id: 13, title: "Longest Consecutive Sequence (LC 128)", pdf: "PDF Sec 3.2", diff: "Medium", tag: "google", video: "https://youtu.be/OO2FsBeFcEs", solve: "https://leetcode.com/problems/longest-consecutive-sequence/" },
+          { id: 14, title: "Rotate Matrix 90° (LC 48)", pdf: "PDF Sec 3.2", diff: "Medium", tag: "ms", video: "https://youtu.be/w9ofZwey57M", solve: "https://leetcode.com/problems/rotate-image/" },
+          { id: 15, title: "3Sum (LC 15)", pdf: "PDF Sec 3.3", diff: "Medium", tag: "both", video: "https://youtu.be/Euky4JTEK0I", solve: "https://leetcode.com/problems/3sum/" }
+        ]
+      },
+      {
+        phaseId: 3,
+        title: "Binary Search",
+        problems: [
+          { id: 16, title: "Binary Search (LC 704)", pdf: "PDF Sec 4.1", diff: "Easy", video: "https://youtu.be/fM4Yat0dERo", solve: "https://leetcode.com/problems/binary-search/" },
+          { id: 17, title: "Search Insert Position (LC 35)", pdf: "PDF Sec 4.1", diff: "Easy", video: "https://youtu.be/MhsEFYyImPs", solve: "https://leetcode.com/problems/search-insert-position/" },
+          { id: 18, title: "Floor & Ceil in Sorted Array", pdf: "PDF Sec 4.1", diff: "Easy", video: "https://youtu.be/W1ombWDEPJg", solve: "https://www.geeksforgeeks.org/problems/floor-in-a-sorted-array-1587115620/1" },
+          { id: 19, title: "First & Last Position in Sorted Array (LC 34)", pdf: "PDF Sec 4.1", diff: "Medium", video: "https://youtu.be/ViotQxoHip4", solve: "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/" },
+          { id: 20, title: "Search in Rotated Sorted Array (LC 33)", pdf: "PDF Sec 4.1", diff: "Medium", tag: "both", video: "https://youtu.be/46kRvrls5xM", solve: "https://leetcode.com/problems/search-in-rotated-sorted-array/" },
+          { id: 21, title: "Find Min in Rotated Sorted Array (LC 153)", pdf: "PDF Sec 4.1", diff: "Medium", video: "https://youtu.be/_B2JakopXLc", solve: "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" },
+          { id: 22, title: "Koko Eating Bananas (LC 875)", pdf: "Answer Space", diff: "Medium", tag: "google", video: "https://www.youtube.com/watch?v=qyfekrNni90", solve: "https://leetcode.com/problems/koko-eating-bananas/" }
+        ]
+      },
+      {
+        phaseId: 4,
+        title: "Sliding Window & Two Pointers",
+        problems: [
+          { id: 23, title: "Longest Substring Without Repeating (LC 3)", pdf: "PDF Sec 10.1", diff: "Medium", tag: "google", video: "https://youtu.be/_zpYpeIREPE", solve: "https://leetcode.com/problems/longest-substring-without-repeating-characters/" },
+          { id: 24, title: "Max Consecutive Ones III (LC 1004)", pdf: "PDF Sec 10.1", diff: "Medium", tag: "google", video: "https://youtu.be/VgmNapc5ycQ", solve: "https://leetcode.com/problems/max-consecutive-ones-iii/" },
+          { id: 25, title: "Fruit Into Baskets (LC 904)", pdf: "PDF Sec 10.1", diff: "Medium", tag: "google", video: "https://youtu.be/bXM1YNPmrwo", solve: "https://leetcode.com/problems/fruit-into-baskets/" },
+          { id: 26, title: "Max Points From Cards (LC 1423)", pdf: "PDF Sec 10.1", diff: "Medium", video: "https://youtu.be/SuwXaaXeOa0", solve: "https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/" },
+          { id: 27, title: "Subarray Sum Equals K (LC 560)", pdf: "Prefix Map", diff: "Medium", tag: "google", video: "https://www.youtube.com/watch?v=frf7qxiN2qU", solve: "https://leetcode.com/problems/subarray-sum-equals-k/" }
+        ]
+      },
+      {
+        phaseId: 5,
+        title: "Recursion & Backtracking",
+        problems: [
+          { id: 28, title: "Recursion Intro & Fibonacci (LC 509)", pdf: "PDF Sec 1.3", diff: "Easy", video: "https://youtu.be/33UUd-rkN9M", solve: "https://leetcode.com/problems/fibonacci-number/" },
+          { id: 29, title: "Subsets / Power Set (LC 78)", pdf: "PDF Sec 8.1", diff: "Medium", tag: "google", video: "https://youtu.be/wNp_FS1Sa_c", solve: "https://leetcode.com/problems/subsets/" },
+          { id: 30, title: "Generate Parentheses (LC 22)", pdf: "PDF Sec 8.2", diff: "Medium", tag: "google", video: "https://youtu.be/8BqjZR-1jdg", solve: "https://leetcode.com/problems/generate-parentheses/" },
+          { id: 31, title: "Combination Sum (LC 39)", pdf: "PDF Sec 8.2", diff: "Medium", tag: "google", video: "https://youtu.be/98-CzNc1O6M", solve: "https://leetcode.com/problems/combination-sum/" },
+          { id: 32, title: "Phone Letter Combinations (LC 17)", pdf: "PDF Sec 8.2", diff: "Medium", video: "https://youtu.be/vINkGJQI9i0", solve: "https://leetcode.com/problems/letter-combinations-of-a-phone-number/" }
+        ]
+      },
+      {
+        phaseId: 6,
+        title: "Linked Lists & Stacks",
+        problems: [
+          { id: 33, title: "Middle of Linked List (LC 876)", pdf: "PDF Sec 6.3", diff: "Easy", video: "https://youtu.be/7YEZjO03JwA", solve: "https://leetcode.com/problems/middle-of-the-linked-list/" },
+          { id: 34, title: "Reverse Linked List (LC 206)", pdf: "PDF Sec 6.3", diff: "Easy", tag: "ms", video: "https://youtu.be/8DJwQV3fjuI", solve: "https://leetcode.com/problems/reverse-linked-list/" },
+          { id: 35, title: "Detect Loop in Linked List (LC 141)", pdf: "PDF Sec 6.3", diff: "Easy", tag: "ms", video: "https://youtu.be/2MlUoKhIjA0", solve: "https://leetcode.com/problems/linked-list-cycle/" },
+          { id: 36, title: "Starting Point of Loop (LC 142)", pdf: "PDF Sec 6.3", diff: "Medium", tag: "ms", video: "https://youtu.be/8qlar5RrRic", solve: "https://leetcode.com/problems/linked-list-cycle-ii/" },
+          { id: 37, title: "Remove Nth Node From End (LC 19)", pdf: "PDF Sec 6.3", diff: "Medium", tag: "ms", video: "https://youtu.be/L7_0FCrajUA", solve: "https://leetcode.com/problems/remove-nth-node-from-end-of-list/" },
+          { id: 38, title: "Understand Deque in Python", pdf: "PDF Sec 9.1", diff: "Easy", desc: "collections.deque O(1) ops", video: "https://youtu.be/IqCe1e6l6Jo", solve: "https://codeanddebug.in" },
+          { id: 39, title: "Valid Parentheses (LC 20)", pdf: "PDF Sec 9.1", diff: "Easy", tag: "ms", video: "https://youtu.be/mnNsoWg2IO0", solve: "https://leetcode.com/problems/valid-parentheses/" },
+          { id: 40, title: "Min Stack (LC 155)", pdf: "PDF Sec 9.1", diff: "Medium", tag: "ms", video: "https://youtu.be/8BZDEeY-yUc", solve: "https://leetcode.com/problems/min-stack/" },
+          { id: 41, title: "Next Greater Element I (LC 496)", pdf: "PDF Sec 9.3", diff: "Easy", video: "https://youtu.be/i7N07gXrqh0", solve: "https://leetcode.com/problems/next-greater-element-i/" }
+        ]
+      },
+      {
+        phaseId: 7,
+        title: "Binary Trees & BST",
+        problems: [
+          { id: 42, title: "Preorder, Inorder & Postorder Traversals", pdf: "PDF Sec 12.1", diff: "Easy", video: "https://youtu.be/ev0JrFgPO4E", solve: "https://leetcode.com/problems/binary-tree-inorder-traversal/" },
+          { id: 43, title: "Level Order Traversal (LC 102)", pdf: "PDF Sec 12.1", diff: "Medium", tag: "both", video: "https://youtu.be/tRhWzxU-oH0", solve: "https://leetcode.com/problems/binary-tree-level-order-traversal/" },
+          { id: 44, title: "Height of Binary Tree (LC 104)", pdf: "PDF Sec 12.2", diff: "Easy", video: "https://youtu.be/qYMxdq2abD8", solve: "https://leetcode.com/problems/maximum-depth-of-binary-tree/" },
+          { id: 45, title: "Diameter of Binary Tree (LC 543)", pdf: "PDF Sec 12.2", diff: "Easy", tag: "google", video: "https://youtu.be/KsADe9oiK1A", solve: "https://leetcode.com/problems/diameter-of-binary-tree/" },
+          { id: 46, title: "Right Side View of Tree (LC 199)", pdf: "PDF Sec 12.2", diff: "Medium", video: "https://youtu.be/91dm6RRruhM", solve: "https://leetcode.com/problems/binary-tree-right-side-view/" },
+          { id: 47, title: "Validate BST (LC 98)", pdf: "PDF Sec 13.2", diff: "Medium", tag: "ms", video: "https://youtu.be/ah604p9o5rA", solve: "https://leetcode.com/problems/validate-binary-search-tree/" },
+          { id: 48, title: "Lowest Common Ancestor (LC 236)", pdf: "PDF Sec 13.2", diff: "Medium", tag: "google", video: "https://youtu.be/huVyorR9rxE", solve: "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/" }
+        ]
+      },
+      {
+        phaseId: 8,
+        title: "Graphs & 2D Matrix Traversals",
+        problems: [
+          { id: 49, title: "Graph Representation (defaultdict(list))", pdf: "PDF Sec 15.1", diff: "Easy", video: "https://youtu.be/YS4FmJBHHDI", solve: "https://www.geeksforgeeks.org/problems/print-adjacency-list-1587115620/1" },
+          { id: 50, title: "BFS & DFS Traversal of Graph", pdf: "PDF Sec 15.1", diff: "Easy", video: "https://youtu.be/lxOw5e7ZuVg", solve: "https://www.geeksforgeeks.org/problems/bfs-traversal-of-graph/1" },
+          { id: 51, title: "Number of Islands (LC 200)", pdf: "PDF Sec 15.2", diff: "Medium", tag: "google", video: "https://youtu.be/_vh_eWEiEl8", solve: "https://leetcode.com/problems/number-of-islands/" },
+          { id: 52, title: "Rotting Oranges (LC 994)", pdf: "PDF Sec 15.2", diff: "Medium", tag: "google", video: "https://youtu.be/sBspSzNU7Oc", solve: "https://leetcode.com/problems/rotting-oranges/" },
+          { id: 53, title: "Flood Fill (LC 733)", pdf: "PDF Sec 15.2", diff: "Easy", video: "https://youtu.be/nisRNyt4ww4", solve: "https://leetcode.com/problems/flood-fill/" },
+          { id: 54, title: "Course Schedule I (LC 207)", pdf: "PDF Sec 15.3", diff: "Medium", tag: "google", video: "https://youtu.be/q2mquGGPmwI", solve: "https://leetcode.com/problems/course-schedule/" }
+        ]
+      },
+      {
+        phaseId: 9,
+        title: "1D Dynamic Programming",
+        problems: [
+          { id: 55, title: "Climbing Stairs (LC 70)", pdf: "PDF Sec 16.2", diff: "Easy", tag: "ms", video: "https://youtu.be/VB_Qj4VWYRg", solve: "https://leetcode.com/problems/climbing-stairs/" },
+          { id: 56, title: "House Robber (LC 198)", pdf: "PDF Sec 16.2", diff: "Medium", tag: "both", video: "https://youtu.be/eyRPBmmUAc4", solve: "https://leetcode.com/problems/house-robber/" },
+          { id: 57, title: "Grid Unique Paths (LC 62)", pdf: "PDF Sec 16.3", diff: "Medium", video: "https://youtu.be/dZNV9dDvo4g", solve: "https://leetcode.com/problems/unique-paths/" }
+        ]
+      }
+    ];
+
+    // Storage Keys
+    const KEY_SOLVED = 'dsa_tracker_solved';
+    const KEY_BOOKMARKS = 'dsa_tracker_bookmarks';
+    const KEY_REVISITS = 'dsa_tracker_revisits_v2';
+    const KEY_THEME = 'dsa_tracker_theme';
+    const KEY_START_DATE = 'dsa_calendar_start_date';
+    const KEY_PACE = 'dsa_calendar_pace';
+    const KEY_ACTIVITY = 'dsa_daily_activity';
+
+    // Local Date Helpers (avoid UTC offset day-shift bugs)
+    function formatLocalDate(d = new Date()) {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function parseLocalDate(str) {
+      if (!str) return new Date();
+      const parts = str.split('-').map(Number);
+      return new Date(parts[0], parts[1] - 1, parts[2], 0, 0, 0, 0);
+    }
+
+    let solvedSet = new Set(JSON.parse(localStorage.getItem(KEY_SOLVED) || '[]'));
+    let bookmarkSet = new Set(JSON.parse(localStorage.getItem(KEY_BOOKMARKS) || '[]'));
+
+    // Structured Spaced Repetition Object: { [id]: { stage: 1|2|3|4, dueDate: timestamp, lastSolved: timestamp } }
+    let revisitMap = {};
+    try {
+      revisitMap = JSON.parse(localStorage.getItem(KEY_REVISITS) || '{}');
+    } catch (e) {
+      revisitMap = {};
+    }
+
+    // Daily Activity Map for Streak Tracking: { "YYYY-MM-DD": [problemId1, problemId2] }
+    let activityMap = {};
+    try {
+      activityMap = JSON.parse(localStorage.getItem(KEY_ACTIVITY) || '{}');
+    } catch (e) {
+      activityMap = {};
+    }
+
+    // Bootstrap activity map if solvedSet has items
+    if (solvedSet.size > 0 && Object.keys(activityMap).length === 0) {
+      const todayStr = formatLocalDate();
+      activityMap[todayStr] = [...solvedSet];
+      localStorage.setItem(KEY_ACTIVITY, JSON.stringify(activityMap));
+    }
+
+    function saveRevisits() {
+      localStorage.setItem(KEY_REVISITS, JSON.stringify(revisitMap));
+    }
+
+    // Calendar State
+    let calStartDateStr = localStorage.getItem(KEY_START_DATE) || formatLocalDate();
+    let calPace = parseInt(localStorage.getItem(KEY_PACE) || '2', 10);
+    let calViewDate = new Date();
+
+    // Calculate Spaced Repetition status for problem
+    function getRevisitInfo(id) {
+      const item = revisitMap[id];
+      if (!item) return null;
+
+      if (item.stage >= 4) {
+        return {
+          status: 'mastered',
+          badgeClass: 'revisit-badge-mastered',
+          label: 'Mastered',
+          stage: 4,
+          daysLeft: 0
+        };
+      }
+
+      const now = Date.now();
+      const diffMs = item.dueDate - now;
+      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+      if (diffDays <= 0) {
+        return {
+          status: 'due',
+          badgeClass: 'revisit-badge-due',
+          label: 'Revisit Due Today',
+          stage: item.stage || 1,
+          daysLeft: diffDays
+        };
+      } else if (diffDays === 1) {
+        return {
+          status: 'upcoming',
+          badgeClass: 'revisit-badge-upcoming',
+          label: `Revisit Tomorrow (Stage ${item.stage || 1})`,
+          stage: item.stage || 1,
+          daysLeft: 1
+        };
+      } else {
+        return {
+          status: 'upcoming',
+          badgeClass: 'revisit-badge-upcoming',
+          label: `Revisit in ${diffDays}d (Stage ${item.stage || 1})`,
+          stage: item.stage || 1,
+          daysLeft: diffDays
+        };
+      }
+    }
+
+    // Toast Notification
+    function showToast(msg) {
+      const sb = document.getElementById('g-snackbar');
+      sb.innerText = msg;
+      sb.className = 'show';
+      clearTimeout(window._toastTimeout);
+      window._toastTimeout = setTimeout(() => {
+        sb.className = '';
+      }, 3200);
+    }
+
+    // Search and Filter Functionality
+    let searchQuery = '';
+
+    function handleSearch(val) {
+      searchQuery = val.trim().toLowerCase();
+      initUI();
+    }
+
+    // Render Row Function
+    function renderRow(p, isRevisitTab = false) {
+      const isDone = solvedSet.has(p.id);
+      const isBookmarked = bookmarkSet.has(p.id);
+      const revInfo = getRevisitInfo(p.id);
+
+      let tagHtml = '';
+      if (p.tag === 'google') tagHtml = '<span class="tag-pill tag-google">Google STEP</span>';
+      else if (p.tag === 'ms') tagHtml = '<span class="tag-pill tag-ms">Microsoft</span>';
+      else if (p.tag === 'both') tagHtml = '<span class="tag-pill tag-google">Google</span><span class="tag-pill tag-ms">Microsoft</span>';
+
+      let diffClass = 'diff-easy';
+      if (p.diff === 'Medium') diffClass = 'diff-medium';
+      else if (p.diff === 'Hard') diffClass = 'diff-hard';
+
+      let revisitBadgeHtml = '';
+      if (revInfo) {
+        revisitBadgeHtml = `<span class="revisit-badge ${revInfo.badgeClass}" id="rev-badge-${p.id}">${revInfo.label}</span>`;
+      }
+
+      // Action buttons for Revisit tab
+      let reviewActionHtml = '';
+      if (isRevisitTab && revInfo) {
+        if (revInfo.stage === 1) {
+          reviewActionHtml = `<button class="g-btn-review-action" onclick="advanceReview(${p.id})">Pass Review (+7d)</button>`;
+        } else if (revInfo.stage === 2) {
+          reviewActionHtml = `<button class="g-btn-review-action" onclick="advanceReview(${p.id})">Pass Review (+14d)</button>`;
+        } else if (revInfo.stage === 3) {
+          reviewActionHtml = `<button class="g-btn-review-action" onclick="advanceReview(${p.id})">Mark Mastered</button>`;
+        }
+      }
+
+      return `
+        <div class="g-row" id="row-${p.id}">
+          <div class="g-row-left">
+            <input type="checkbox" class="g-checkbox" id="chk-${p.id}" ${isDone ? 'checked' : ''} onchange="toggleDone(${p.id})" title="${isDone ? 'Mark as Unsolved' : 'Mark Solved & Schedule Spaced Repetition'}">
+            
+            <!-- Bookmark Button -->
+            <button class="icon-tool-btn ${isBookmarked ? 'bookmarked' : ''}" onclick="toggleBookmark(${p.id})" title="${isBookmarked ? 'Remove Bookmark' : 'Bookmark Question'}">
+              <svg class="tool-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </button>
+
+            <!-- Revisit / Spaced Repetition Button -->
+            <button class="icon-tool-btn ${revInfo ? 'review-active' : ''}" onclick="toggleRevisit(${p.id})" title="${revInfo ? 'Click to Remove from Revisit Queue' : 'Manually Add to Spaced Repetition Queue'}">
+              <svg class="tool-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </button>
+
+            <div class="g-row-content">
+              <a href="${p.solve}" target="_blank" rel="noopener noreferrer" class="problem-title-anchor ${isDone ? 'is-completed' : ''}" id="title-${p.id}">
+                <span>${p.title}</span>
+                <span class="link-ext-arrow">↗</span>
+              </a>
+              <div class="row-subtitle">
+                <span class="pdf-tag">${p.pdf}</span>
+                <span class="diff-badge ${diffClass}">${p.diff}</span>
+                ${tagHtml}
+                ${revisitBadgeHtml}
+              </div>
+            </div>
+          </div>
+
+          <div class="row-buttons-right">
+            ${reviewActionHtml}
+            <a href="${p.video}" target="_blank" rel="noopener noreferrer" class="g-btn-pill g-btn-watch" title="Watch Python Video Explanation in new tab">
+              <svg style="width: 12px; height: 12px; fill: currentColor;" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Watch
+            </a>
+            <a href="${p.solve}" target="_blank" rel="noopener noreferrer" class="g-btn-pill g-btn-solve" title="Solve Problem in new tab">
+              Solve
+              <span class="link-ext-arrow">↗</span>
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    function initUI() {
+      // 1. Build All Phases in Tab 1
+      const mainContainer = document.getElementById('all-phases-container');
+      mainContainer.innerHTML = '';
+
+      let matchedTotal = 0;
+
+      PHASES_DATA.forEach(phase => {
+        let problemsToShow = phase.problems;
+        if (searchQuery) {
+          problemsToShow = problemsToShow.filter(p => 
+            p.title.toLowerCase().includes(searchQuery) ||
+            p.pdf.toLowerCase().includes(searchQuery) ||
+            p.diff.toLowerCase().includes(searchQuery) ||
+            (p.tag && p.tag.toLowerCase().includes(searchQuery)) ||
+            (p.desc && p.desc.toLowerCase().includes(searchQuery))
+          );
+        }
+
+        if (problemsToShow.length === 0 && searchQuery) {
+          return;
+        }
+
+        matchedTotal += problemsToShow.length;
+
+        const card = document.createElement('div');
+        card.className = 'g-card';
+        card.id = `phase-card-${phase.phaseId}`;
+
+        const rowsHtml = problemsToShow.map(p => renderRow(p, false)).join('');
+
+        card.innerHTML = `
+          <div class="g-card-header" onclick="toggleCard('phase-card-${phase.phaseId}')">
+            <div style="display: flex; align-items: center;">
+              <span class="phase-badge-pill">Phase 0${phase.phaseId}</span>
+              <span class="phase-title-text">${phase.title}</span>
+            </div>
+            <div class="card-meta-right">
+              <span class="phase-stat" id="stat-phase-${phase.phaseId}">0/${phase.problems.length}</span>
+              <svg class="chevron-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="g-item-list">
+            ${rowsHtml}
+          </div>
+        `;
+        mainContainer.appendChild(card);
+      });
+
+      if (searchQuery && matchedTotal === 0) {
+        mainContainer.innerHTML = `
+          <div class="g-card">
+            <div class="empty-state">
+              No problems matching "<strong>${searchQuery}</strong>".<br>
+              Try searching by problem name (e.g., "Two Sum"), number ("LC 26"), or pattern ("Sliding Window").
+            </div>
+          </div>
+        `;
+      }
+
+      // 2. Build Google STEP Top 10
+      const googleIds = [23, 51, 27, 48, 20, 25, 52, 15, 31, 22];
+      const googleProblems = getAllProblems().filter(p => googleIds.includes(p.id));
+      document.getElementById('google-step-container').innerHTML = googleProblems.map(p => renderRow(p, false)).join('');
+
+      // 3. Build Microsoft Top 10
+      const msIds = [34, 35, 36, 37, 47, 14, 39, 40, 11, 55];
+      const msProblems = getAllProblems().filter(p => msIds.includes(p.id));
+      document.getElementById('microsoft-container').innerHTML = msProblems.map(p => renderRow(p, false)).join('');
+
+      // 4. Update Revisit and Bookmarks lists
+      renderAuxiliaryTabs();
+
+      // 5. Update Metrics & KPIs
+      updateMetrics();
+
+      // 6. Build Public Activity Matrix, Recovery Assistant & Day Journey
+      document.getElementById('cal-start-date').value = calStartDateStr;
+      document.getElementById('cal-pace-select').value = calPace;
+      refreshTrackerViews();
+
+      // 7. Apply Saved Theme
+      const savedTheme = localStorage.getItem(KEY_THEME);
+      if (savedTheme === 'light') {
+        applyTheme('light');
+      } else {
+        applyTheme('dark');
+      }
+    }
+
+    function getAllProblems() {
+      const list = [];
+      PHASES_DATA.forEach(phase => {
+        phase.problems.forEach(p => list.push(p));
+      });
+      return list;
+    }
+
+    // Record activity for streak tracking
+    function recordActivity(id, isAdding) {
+      const todayStr = formatLocalDate();
+      if (!activityMap[todayStr]) activityMap[todayStr] = [];
+
+      if (isAdding) {
+        if (!activityMap[todayStr].includes(id)) {
+          activityMap[todayStr].push(id);
+        }
+      } else {
+        Object.keys(activityMap).forEach(d => {
+          activityMap[d] = activityMap[d].filter(x => x !== id);
+          if (activityMap[d].length === 0) delete activityMap[d];
+        });
+      }
+      localStorage.setItem(KEY_ACTIVITY, JSON.stringify(activityMap));
+    }
+
+    // Calculate consecutive active days streak
+    function calculateStreak() {
+      const today = new Date();
+      const todayStr = formatLocalDate(today);
+      const solvedToday = (activityMap[todayStr] && activityMap[todayStr].length > 0);
+
+      let streak = 0;
+      let checkDate = new Date(today);
+      if (!solvedToday) {
+        checkDate.setDate(checkDate.getDate() - 1);
+      }
+
+      while (true) {
+        const dStr = formatLocalDate(checkDate);
+        if (activityMap[dStr] && activityMap[dStr].length > 0) {
+          streak++;
+          checkDate.setDate(checkDate.getDate() - 1);
+        } else {
+          break;
+        }
+      }
+
+      return {
+        streak: streak,
+        solvedTodayCount: activityMap[todayStr]?.length || 0
+      };
+    }
+
+    // Checkbox Toggle: Toggles solved state, records activity streak, and schedules Spaced Repetition
+    function toggleDone(id) {
+      if (solvedSet.has(id)) {
+        solvedSet.delete(id);
+        recordActivity(id, false);
+        showToast('Question unmarked as solved.');
+      } else {
+        solvedSet.add(id);
+        recordActivity(id, true);
+        if (!revisitMap[id]) {
+          revisitMap[id] = {
+            stage: 1,
+            dueDate: Date.now() + 3 * 86400000,
+            lastSolved: Date.now()
+          };
+          saveRevisits();
+          showToast('Solved! Streak extended & scheduled for 3-Day Spaced Repetition.');
+        } else {
+          showToast('Marked as solved! Streak updated.');
+        }
+      }
+      localStorage.setItem(KEY_SOLVED, JSON.stringify([...solvedSet]));
+      updateMetrics();
+      syncRowState(id);
+      renderAuxiliaryTabs();
+      refreshTrackerViews();
+    }
+
+    function toggleBookmark(id) {
+      if (bookmarkSet.has(id)) {
+        bookmarkSet.delete(id);
+        showToast('Bookmark removed.');
+      } else {
+        bookmarkSet.add(id);
+        showToast('Bookmarked question.');
+      }
+      localStorage.setItem(KEY_BOOKMARKS, JSON.stringify([...bookmarkSet]));
+      renderAuxiliaryTabs();
+      updateMetrics();
+      syncRowState(id);
+    }
+
+    function toggleRevisit(id) {
+      if (revisitMap[id]) {
+        delete revisitMap[id];
+        showToast('Removed from revisit schedule.');
+      } else {
+        revisitMap[id] = {
+          stage: 1,
+          dueDate: Date.now() + 3 * 86400000,
+          lastSolved: Date.now()
+        };
+        showToast('Added to schedule: Revisit in 3 Days.');
+      }
+      saveRevisits();
+      renderAuxiliaryTabs();
+      updateMetrics();
+      syncRowState(id);
+      refreshTrackerViews();
+    }
+
+    // Advance to next Spaced Repetition interval
+    function advanceReview(id) {
+      if (!revisitMap[id]) return;
+      const currentStage = revisitMap[id].stage || 1;
+      const nextStage = currentStage + 1;
+
+      if (nextStage === 2) {
+        revisitMap[id].stage = 2;
+        revisitMap[id].dueDate = Date.now() + 7 * 86400000;
+        saveRevisits();
+        showToast('Stage 1 passed! Next review in 7 days.');
+      } else if (nextStage === 3) {
+        revisitMap[id].stage = 3;
+        revisitMap[id].dueDate = Date.now() + 14 * 86400000;
+        saveRevisits();
+        showToast('Stage 2 passed! Final review in 14 days.');
+      } else {
+        revisitMap[id].stage = 4;
+        saveRevisits();
+        showToast('Congratulations! Problem Mastered permanently.');
+      }
+      updateMetrics();
+      syncRowState(id);
+      renderAuxiliaryTabs();
+      refreshTrackerViews();
+    }
+
+    function syncRowState(id) {
+      const isDone = solvedSet.has(id);
+      const isBookmarked = bookmarkSet.has(id);
+      const revInfo = getRevisitInfo(id);
+
+      document.querySelectorAll(`[id="chk-${id}"]`).forEach(cb => cb.checked = isDone);
+
+      document.querySelectorAll(`[id="title-${id}"]`).forEach(t => {
+        if (isDone) t.classList.add('is-completed');
+        else t.classList.remove('is-completed');
+      });
+
+      document.querySelectorAll(`#row-${id} .icon-tool-btn`).forEach(btn => {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('toggleBookmark')) {
+          if (isBookmarked) btn.classList.add('bookmarked');
+          else btn.classList.remove('bookmarked');
+        }
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('toggleRevisit')) {
+          if (revInfo) btn.classList.add('review-active');
+          else btn.classList.remove('review-active');
+        }
+      });
+
+      document.querySelectorAll(`[id="rev-badge-${id}"]`).forEach(b => {
+        if (revInfo) {
+          b.className = `revisit-badge ${revInfo.badgeClass}`;
+          b.innerText = revInfo.label;
+          b.style.display = 'inline-flex';
+        } else {
+          b.style.display = 'none';
+        }
+      });
+    }
+
+    function renderAuxiliaryTabs() {
+      const all = getAllProblems();
+
+      const revisitContainer = document.getElementById('revisit-groups-container');
+      const scheduledIds = Object.keys(revisitMap).map(Number);
+      const scheduledProblems = all.filter(p => scheduledIds.includes(p.id));
+
+      if (scheduledProblems.length === 0) {
+        revisitContainer.innerHTML = `
+          <div class="g-card">
+            <div class="empty-state">
+              No questions in your revisit queue yet.<br>
+              When you tick the checkbox to solve any problem, it is automatically scheduled for 3-Day Spaced Repetition review.
+            </div>
+          </div>
+        `;
+        document.getElementById('revisit-stats-summary').innerText = '0 active reviews';
+      } else {
+        const dueList = [];
+        const upcomingList = [];
+        const masteredList = [];
+
+        scheduledProblems.forEach(p => {
+          const info = getRevisitInfo(p.id);
+          if (info.status === 'due') dueList.push(p);
+          else if (info.status === 'mastered') masteredList.push(p);
+          else upcomingList.push(p);
+        });
+
+        document.getElementById('revisit-stats-summary').innerText = `${dueList.length} due today &bull; ${upcomingList.length} upcoming &bull; ${masteredList.length} mastered`;
+
+        let html = '';
+
+        if (dueList.length > 0) {
+          html += `
+            <div class="section-subhead" style="color: var(--g-yellow);">
+              <svg style="width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              Due Today (${dueList.length}) - High Priority
+            </div>
+            <div class="g-card" style="border-color: rgba(253, 214, 99, 0.4);">
+              <div class="g-item-list">
+                ${dueList.map(p => renderRow(p, true)).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        if (upcomingList.length > 0) {
+          html += `
+            <div class="section-subhead" style="color: var(--g-blue);">
+              <svg style="width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              Upcoming Reviews (${upcomingList.length})
+            </div>
+            <div class="g-card">
+              <div class="g-item-list">
+                ${upcomingList.map(p => renderRow(p, true)).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        if (masteredList.length > 0) {
+          html += `
+            <div class="section-subhead" style="color: var(--g-green);">
+              <svg style="width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Mastered (${masteredList.length}) - Completed 3 Interval Cycles
+            </div>
+            <div class="g-card">
+              <div class="g-item-list">
+                ${masteredList.map(p => renderRow(p, true)).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        revisitContainer.innerHTML = html;
+      }
+
+      // Render Bookmarks Tab
+      const bookmarkContainer = document.getElementById('bookmark-list-container');
+      const bookmarkProblems = all.filter(p => bookmarkSet.has(p.id));
+      if (bookmarkProblems.length === 0) {
+        bookmarkContainer.innerHTML = '<div class="empty-state">No bookmarked questions. Click the star icon on any problem to pin it here.</div>';
+      } else {
+        bookmarkContainer.innerHTML = bookmarkProblems.map(p => renderRow(p, false)).join('');
+      }
+    }
+
+    function updateMetrics() {
+      const total = getAllProblems().length;
+      const solved = solvedSet.size;
+      const pct = Math.round((solved / total) * 100);
+
+      document.getElementById('progress-meter').style.width = pct + '%';
+      document.getElementById('percent-val').innerText = pct + '%';
+      document.getElementById('stat-count').innerText = `${solved} of ${total} completed`;
+
+      // KPI Metric Cards
+      document.getElementById('kpi-solved-val').innerHTML = `${solved} <span style="font-size: 13px; font-weight: normal; color: var(--g-text-tertiary);">/ ${total}</span>`;
+      document.getElementById('kpi-percent-sub').innerText = `${pct}% mastered`;
+
+      const scheduledCount = Object.keys(revisitMap).length;
+      const dueCount = Object.values(revisitMap).filter(item => {
+        const diffMs = item.dueDate - Date.now();
+        return Math.ceil(diffMs / (1000 * 60 * 60 * 24)) <= 0 && item.stage < 4;
+      }).length;
+
+      document.getElementById('kpi-revisit-val').innerHTML = `${dueCount} <span style="font-size: 13px; font-weight: normal; color: var(--g-text-tertiary);">due</span>`;
+      document.getElementById('kpi-revisit-sub').innerText = `${scheduledCount} active in queue`;
+
+      document.getElementById('kpi-bookmark-val').innerHTML = `${bookmarkSet.size} <span style="font-size: 13px; font-weight: normal; color: var(--g-text-tertiary);">saved</span>`;
+
+      // Tab badges
+      document.getElementById('revisit-badge').innerText = scheduledCount;
+      document.getElementById('bookmark-badge').innerText = bookmarkSet.size;
+
+      // Phase counts
+      PHASES_DATA.forEach(phase => {
+        const count = phase.problems.filter(p => solvedSet.has(p.id)).length;
+        const statEl = document.getElementById(`stat-phase-${phase.phaseId}`);
+        if (statEl) statEl.innerText = `${count}/${phase.problems.length}`;
+      });
+    }
+
+    /* ========================================================
+       ACTIVITY DOT MATRIX, SMART RECOVERY & DAY JOURNEY ENGINE
+       ======================================================== */
+    function refreshTrackerViews() {
+      renderActivityDotMatrix();
+      renderRecoveryAssistant();
+      renderDayJourney();
+      syncWithBackend();
+    }
+
+    function onStartDateChange(val) {
+      if (!val) return;
+      calStartDateStr = val;
+      localStorage.setItem(KEY_START_DATE, val);
+      refreshTrackerViews();
+      showToast('Start Point updated! Study roadmap recalculated.');
+    }
+
+    function onPaceChange(val) {
+      calPace = parseInt(val, 10);
+      localStorage.setItem(KEY_PACE, val);
+      refreshTrackerViews();
+      showToast(`Pace set to ${calPace} problem${calPace > 1 ? 's' : ''} per day.`);
+    }
+
+    // 1. RENDER AUTHENTIC 28-DAY (4-WEEK) ACTIVITY MATRIX (EXACTLY MATCHING IMAGE 2)
+    function renderActivityDotMatrix() {
+      const grid = document.getElementById('activity-dots-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const todayStr = formatLocalDate(today);
+
+      // Streak stats
+      const { streak, solvedTodayCount } = calculateStreak();
+      const streakValEl = document.getElementById('activity-streak-val');
+      if (streakValEl) streakValEl.innerText = `${streak} Day Streak`;
+
+      const todayTargetEl = document.getElementById('activity-today-target');
+      if (todayTargetEl) {
+        if (solvedTodayCount >= calPace) {
+          todayTargetEl.innerHTML = `Today: ${solvedTodayCount} / ${calPace} Solved <span style="color:var(--g-green); font-weight:700;">(Target Met)</span>`;
+        } else {
+          todayTargetEl.innerHTML = `Today: ${solvedTodayCount} / ${calPace} Solved (${calPace - solvedTodayCount} remaining)`;
+        }
+      }
+
+      // Find current day position in curriculum
+      const expectedDayNum = getExpectedDayNumber();
+      const stageInfoEl = document.getElementById('activity-stage-info');
+      if (stageInfoEl) {
+        stageInfoEl.innerText = `Current: Day ${expectedDayNum} of ${Math.ceil(57 / calPace)} Scheduled`;
+      }
+
+      // Generate 28 days (4 weeks) leading up to end of current week
+      const currentDayOfWeek = (today.getDay() + 6) % 7; // 0 = Mon, 6 = Sun
+      const endOfWeek = new Date(today);
+      endOfWeek.setDate(today.getDate() + (6 - currentDayOfWeek));
+
+      // 4 weeks = 28 days
+      const startOfMatrix = new Date(endOfWeek);
+      startOfMatrix.setDate(endOfWeek.getDate() - 27);
+
+      let totalActiveDays = 0;
+
+      for (let i = 0; i < 28; i++) {
+        const curDate = new Date(startOfMatrix);
+        curDate.setDate(startOfMatrix.getDate() + i);
+        const dateStr = formatLocalDate(curDate);
+
+        const solvedList = activityMap[dateStr] || [];
+        const isActive = (solvedList.length > 0);
+        const isToday = (dateStr === todayStr);
+
+        if (isActive) totalActiveDays++;
+
+        const dot = document.createElement('div');
+        dot.className = `activity-dot ${isActive ? 'active' : ''} ${isToday ? 'today' : ''}`;
+        
+        const dateFormatted = curDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+        dot.title = `${dateFormatted}: ${solvedList.length} problem(s) solved${isToday ? ' (Today)' : ''}`;
+        dot.onclick = () => {
+          if (solvedList.length > 0) {
+            showToast(`${dateFormatted}: ${solvedList.length} problem(s) solved.`);
+          } else {
+            showToast(`${dateFormatted}: No problems solved.`);
+          }
+        };
+
+        grid.appendChild(dot);
+      }
+
+      const totalActiveEl = document.getElementById('activity-total-active');
+      if (totalActiveEl) {
+        totalActiveEl.innerText = `${totalActiveDays} Active Day${totalActiveDays !== 1 ? 's' : ''}`;
+      }
+    }
+
+    // Helper: calculate expected day number from start date
+    function getExpectedDayNumber() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const start = parseLocalDate(calStartDateStr);
+      const diffDays = Math.floor((today - start) / 86400000);
+      return Math.max(1, diffDays + 1);
+    }
+
+    // 2. BUILD THE SEQUENTIAL DAY-BY-DAY STUDY JOURNEY
+    function getJourneySchedule() {
+      const all = getAllProblems();
+      const days = [];
+      const start = parseLocalDate(calStartDateStr);
+      let currentDayIndex = 0;
+      let problemIdx = 0;
+
+      const reviewsByDate = {};
+      const milestonesByDay = {
+        25: { title: "Milestone: Google STEP Readiness Check", desc: "Solve Top 10 Google STEP problems in a blank Google Doc without IDE or syntax autocomplete." },
+        29: { title: "Milestone: 57-Question Core Curriculum Mastered", desc: "Complete archetype foundations for Google & Microsoft 2nd-year technical loops." },
+        45: { title: "Milestone: Microsoft Explore Readiness Check", desc: "Final review of OOP, Trees, Linked Lists, and system design basics." }
+      };
+
+      while (problemIdx < all.length) {
+        const currentDate = new Date(start);
+        currentDate.setDate(start.getDate() + currentDayIndex);
+        const dateStr = formatLocalDate(currentDate);
+        const dayProblems = [];
+
+        for (let i = 0; i < calPace && problemIdx < all.length; i++) {
+          const p = all[problemIdx];
+          dayProblems.push(p);
+
+          // Ebbinghaus Stage 1 (+3 Days)
+          const d3 = new Date(currentDate);
+          d3.setDate(currentDate.getDate() + 3);
+          const d3Str = formatLocalDate(d3);
+          if (!reviewsByDate[d3Str]) reviewsByDate[d3Str] = [];
+          reviewsByDate[d3Str].push({ problem: p, stage: 1, label: `Review (Stage 1): ${p.title}` });
+
+          // Ebbinghaus Stage 2 (+7 Days)
+          const d7 = new Date(currentDate);
+          d7.setDate(currentDate.getDate() + 7);
+          const d7Str = formatLocalDate(d7);
+          if (!reviewsByDate[d7Str]) reviewsByDate[d7Str] = [];
+          reviewsByDate[d7Str].push({ problem: p, stage: 2, label: `Review (Stage 2): ${p.title}` });
+
+          problemIdx++;
+        }
+
+        const dayNumber = currentDayIndex + 1;
+        days.push({
+          dayNum: dayNumber,
+          date: currentDate,
+          dateStr: dateStr,
+          problems: dayProblems,
+          milestone: milestonesByDay[dayNumber] || null
+        });
+
+        currentDayIndex++;
+      }
+
+      return { days, reviewsByDate };
+    }
+
+    // 3. SMART MISSED DAYS & LONG GAP RECOVERY ASSISTANT
+    function renderRecoveryAssistant() {
+      const container = document.getElementById('recovery-assistant-container');
+      if (!container) return;
+
+      const { days } = getJourneySchedule();
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const todayStr = formatLocalDate(today);
+
+      // Identify missed days and inactive gaps
+      const missedDays = [];
+      days.forEach(d => {
+        if (d.dateStr < todayStr) {
+          const allDone = d.problems.length > 0 && d.problems.every(p => solvedSet.has(p.id));
+          if (!allDone) {
+            missedDays.push(d);
+          }
+        }
+      });
+
+      // Calculate consecutive inactive days
+      const activeDates = Object.keys(activityMap).filter(d => activityMap[d] && activityMap[d].length > 0).sort();
+      let inactiveGapDays = 0;
+      if (activeDates.length > 0) {
+        const lastActive = parseLocalDate(activeDates[activeDates.length - 1]);
+        inactiveGapDays = Math.floor((today - lastActive) / 86400000);
+      } else {
+        const start = parseLocalDate(calStartDateStr);
+        inactiveGapDays = Math.max(0, Math.floor((today - start) / 86400000));
+      }
+
+      let html = '';
+
+      // Scenario 1: Long Gap (4+ days inactive or 4+ missed days)
+      if (inactiveGapDays >= 4 || missedDays.length >= 4) {
+        html = `
+          <div class="recovery-assistant-card status-long-gap">
+            <div class="recovery-info-left">
+              <div class="recovery-title" style="color: var(--g-red);">
+                <svg style="width:18px; height:18px; fill:currentColor;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                Long Gap Recovery Protocol (${inactiveGapDays} Days Inactive)
+              </div>
+              <div class="recovery-desc">
+                <strong>Brutal Honesty:</strong> Cognitive neuroscience shows algorithmic patterns decay ~60% after 4 days of inactivity. 
+                Attempting to rush ${missedDays.length * calPace} overdue problems at once causes cognitive burnout and shallow retention. 
+                <strong>Recommended Recovery:</strong> Recalibrate your roadmap from Today. Your completed problems are safely preserved, and Day ${missedDays.length > 0 ? missedDays[0].dayNum : 1} will re-align cleanly with today.
+              </div>
+            </div>
+            <div class="recovery-actions-right">
+              <button class="g-btn-recovery-primary" onclick="recalibrateFromToday()">
+                Recalibrate Roadmap from Today
+              </button>
+              <button class="g-btn-recovery-secondary" onclick="shiftScheduleForward(${missedDays.length || 1})">
+                Shift Schedule (+${missedDays.length || 1}d)
+              </button>
+            </div>
+          </div>
+        `;
+      }
+      // Scenario 2: Minor Miss (1 to 3 days missed)
+      else if (missedDays.length > 0) {
+        const missedDayNums = missedDays.map(d => `Day ${d.dayNum}`).join(', ');
+        html = `
+          <div class="recovery-assistant-card status-minor-miss">
+            <div class="recovery-info-left">
+              <div class="recovery-title" style="color: var(--g-yellow);">
+                <svg style="width:18px; height:18px; fill:currentColor;" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+                Catch-Up Needed: ${missedDays.length} Day(s) Skipped (${missedDayNums})
+              </div>
+              <div class="recovery-desc">
+                You have ${missedDays.length * calPace} pending problem(s). Don't panic or cram. Either shift your schedule forward by ${missedDays.length} day(s) without guilt, or temporarily sprint with +1 problem per day.
+              </div>
+            </div>
+            <div class="recovery-actions-right">
+              <button class="g-btn-recovery-primary" onclick="shiftScheduleForward(${missedDays.length})">
+                Shift Schedule Forward (+${missedDays.length}d)
+              </button>
+              <button class="g-btn-recovery-secondary" onclick="sprintCatchUp()">
+                Sprint Catch-Up (+1/day)
+              </button>
+            </div>
+          </div>
+        `;
+      }
+      // Scenario 3: On Track
+      else {
+        const expectedDayNum = getExpectedDayNumber();
+        html = `
+          <div class="recovery-assistant-card status-on-track">
+            <div class="recovery-info-left">
+              <div class="recovery-title" style="color: var(--g-green);">
+                <svg style="width:18px; height:18px; fill:currentColor;" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                On Track: Day ${expectedDayNum} Active
+              </div>
+              <div class="recovery-desc">
+                Your preparation is on schedule. Complete today's target problems to maintain your study streak for Google STEP and Microsoft Explore.
+              </div>
+            </div>
+            <div class="recovery-actions-right">
+              <span style="font-size: 12px; font-weight: 600; color: var(--g-green);">Consistent Pace &bull; 0 Overdue</span>
+            </div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+    }
+
+    // 4. RECOVERY ACTIONS: 1-CLICK RESOLUTIONS
+    function recalibrateFromToday() {
+      const todayStr = formatLocalDate();
+      calStartDateStr = todayStr;
+      localStorage.setItem(KEY_START_DATE, todayStr);
+      document.getElementById('cal-start-date').value = todayStr;
+
+      refreshTrackerViews();
+      syncWithBackend('recalibrate_today');
+      showToast('Roadmap recalibrated! Today is now Day 1 for your remaining topics.');
+    }
+
+    function shiftScheduleForward(days) {
+      const shift = days || 1;
+      const curStart = parseLocalDate(calStartDateStr);
+      curStart.setDate(curStart.getDate() + shift);
+      const newStartStr = formatLocalDate(curStart);
+
+      calStartDateStr = newStartStr;
+      localStorage.setItem(KEY_START_DATE, newStartStr);
+      document.getElementById('cal-start-date').value = newStartStr;
+
+      refreshTrackerViews();
+      syncWithBackend('shift_days', shift);
+      showToast(`Schedule shifted forward by ${shift} day(s). No backlog guilt!`);
+    }
+
+    function sprintCatchUp() {
+      const newPace = Math.min(4, calPace + 1);
+      onPaceChange(newPace);
+      document.getElementById('cal-pace-select').value = newPace;
+      showToast(`Temporary Sprint Mode activated: Pace set to ${newPace} problems/day.`);
+    }
+
+    // 5. RENDER THE DAY-BY-DAY JOURNEY COLUMN
+    function renderDayJourney() {
+      const container = document.getElementById('day-journey-list');
+      if (!container) return;
+
+      const { days, reviewsByDate } = getJourneySchedule();
+      const todayStr = formatLocalDate();
+
+      let html = '';
+
+      days.forEach(d => {
+        const isToday = (d.dateStr === todayStr);
+        const isPast = (d.dateStr < todayStr);
+        const allSolved = d.problems.length > 0 && d.problems.every(p => solvedSet.has(p.id));
+        const isMissed = isPast && !allSolved;
+
+        let cardClass = 'journey-day-card';
+        if (isToday) cardClass += ' is-today';
+        if (allSolved) cardClass += ' is-completed';
+        if (isMissed) cardClass += ' is-missed';
+
+        let badgeHtml = '';
+        if (allSolved) {
+          badgeHtml = '<span class="journey-day-badge journey-badge-done">Completed</span>';
+        } else if (isToday) {
+          badgeHtml = '<span class="journey-day-badge journey-badge-today">Today\'s Target</span>';
+        } else if (isMissed) {
+          badgeHtml = '<span class="journey-day-badge journey-badge-missed">Missed</span>';
+        } else {
+          badgeHtml = '<span class="journey-day-badge journey-badge-upcoming">Upcoming</span>';
+        }
+
+        const dayName = d.date.toLocaleDateString('en-US', { weekday: 'short' });
+        const monthName = d.date.toLocaleDateString('en-US', { month: 'short' });
+        const dayNumber = d.date.getDate();
+
+        const reviews = reviewsByDate[d.dateStr] || [];
+
+        html += `
+          <div class="${cardClass}" id="journey-day-${d.dayNum}">
+            <div class="journey-day-header">
+              <div class="journey-day-title-box">
+                <span class="journey-day-label">Day ${d.dayNum}</span>
+                <span class="journey-day-meta">${dayName}, ${monthName} ${dayNumber}</span>
+              </div>
+              ${badgeHtml}
+            </div>
+
+            <!-- Problem list for this day -->
+            <div class="journey-problems-list">
+        `;
+
+        d.problems.forEach(p => {
+          const isDone = solvedSet.has(p.id);
+          let diffClass = 'diff-easy';
+          if (p.diff === 'Medium') diffClass = 'diff-medium';
+          else if (p.diff === 'Hard') diffClass = 'diff-hard';
+
+          let tagHtml = '';
+          if (p.tag === 'google') tagHtml = '<span class="tag-pill tag-google">Google STEP</span>';
+          else if (p.tag === 'ms') tagHtml = '<span class="tag-pill tag-ms">Microsoft</span>';
+          else if (p.tag === 'both') tagHtml = '<span class="tag-pill tag-google">Google</span><span class="tag-pill tag-ms">MS</span>';
+
+          html += `
+            <div class="journey-problem-row">
+              <div class="journey-problem-left">
+                <input type="checkbox" class="g-checkbox" ${isDone ? 'checked' : ''} onchange="toggleDone(${p.id})" title="${isDone ? 'Mark Unsolved' : 'Mark Solved'}">
+                <a href="${p.solve}" target="_blank" rel="noopener noreferrer" class="journey-problem-title">
+                  ${p.title}
+                </a>
+                <span class="tag-pill ${diffClass}">${p.diff}</span>
+                ${tagHtml}
+              </div>
+              <div class="journey-problem-actions">
+                <a href="${p.solve}" target="_blank" rel="noopener noreferrer" class="g-btn-pill g-btn-solve" style="font-size: 11px; padding: 4px 10px;">Solve ↗</a>
+                <a href="${p.video}" target="_blank" rel="noopener noreferrer" class="g-btn-pill g-btn-watch" style="font-size: 11px; padding: 4px 10px;">Watch</a>
+              </div>
+            </div>
+          `;
+        });
+
+        // Reviews due on this date
+        if (reviews.length > 0) {
+          reviews.forEach(r => {
+            html += `
+              <div class="journey-review-reminder">
+                <svg style="width:14px; height:14px; fill:currentColor; flex-shrink:0;" viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+                <span><strong>Spaced Repetition Review:</strong> ${r.label}</span>
+              </div>
+            `;
+          });
+        }
+
+        // Milestone
+        if (d.milestone) {
+          html += `
+            <div class="journey-milestone-box">
+              <svg style="width: 18px; height: 18px; fill: var(--g-yellow); flex-shrink: 0;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              <div>
+                <div>${d.milestone.title}</div>
+                <div style="font-size: 11px; font-weight: normal; opacity: 0.9;">${d.milestone.desc}</div>
+              </div>
+            </div>
+          `;
+        }
+
+        html += `
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // 6. BACKEND FASTAPI SYNCHRONIZATION (HYBRID CLOUD / LOCALSTORAGE)
+    async function syncWithBackend(action = null, payloadVal = 0) {
+      try {
+        if (action === 'recalibrate_today') {
+          await fetch('http://127.0.0.1:8000/api/recalibrate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ mode: 'from_today', shift_days: 0 })
+          });
+        } else if (action === 'shift_days') {
+          await fetch('http://127.0.0.1:8000/api/recalibrate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ mode: 'shift_days', shift_days: payloadVal })
+          });
+        } else {
+          // General state sync
+          await fetch('http://127.0.0.1:8000/api/state', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              solved: [...solvedSet],
+              bookmarks: [...bookmarkSet],
+              revisits: revisitMap,
+              activity: activityMap,
+              start_date: calStartDateStr,
+              pace: calPace,
+              theme: localStorage.getItem(KEY_THEME) || 'dark'
+            })
+          });
+        }
+      } catch (err) {
+        // FastAPI server not running: silently operates via localStorage seamlessly!
+      }
+    }
+
+    // Export .ICS calendar file for 1-click import into Google Calendar
+    function exportICSCalendar() {
+      const { days } = getJourneySchedule();
+      let ics = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Google DSA Tracker//EN\nCALSCALE:GREGORIAN\n";
+
+      days.forEach(d => {
+        const cleanDate = d.dateStr.replace(/-/g, '');
+        d.problems.forEach((p, idx) => {
+          ics += "BEGIN:VEVENT\n";
+          ics += `UID:dsa-${cleanDate}-${p.id}@antigravity.google\n`;
+          ics += `DTSTAMP:${cleanDate}T090000Z\n`;
+          ics += `DTSTART;VALUE=DATE:${cleanDate}\n`;
+          ics += `SUMMARY:DSA Day ${d.dayNum}: ${p.title}\n`;
+          ics += `DESCRIPTION:Solve at: ${p.solve} \\nVideo tutorial: ${p.video}\n`;
+          ics += "END:VEVENT\n";
+        });
+      });
+
+      ics += "END:VCALENDAR";
+
+      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'DSA_Google_STEP_Study_Plan.ics';
+      link.click();
+      showToast('Exported DSA_Google_STEP_Study_Plan.ics! Double-click to import into Google Calendar.');
+    }
+
+    function switchGoogleTab(paneId, btnEl) {
+      document.querySelectorAll('.tab-content').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(paneId).classList.add('active');
+      if (btnEl) btnEl.classList.add('active');
+    }
+
+    function toggleCard(cardId) {
+      document.getElementById(cardId).classList.toggle('collapsed');
+    }
+
+    // Theme Switcher (Day Mode / Dark Mode)
+    function applyTheme(theme) {
+      const iconContainer = document.getElementById('theme-icon-container');
+      const label = document.getElementById('theme-label');
+
+      if (theme === 'light') {
+        document.body.classList.add('light-mode');
+        label.innerText = 'Dark Mode';
+        iconContainer.innerHTML = `
+          <svg class="theme-icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        `;
+        localStorage.setItem(KEY_THEME, 'light');
+      } else {
+        document.body.classList.remove('light-mode');
+        label.innerText = 'Day Mode';
+        iconContainer.innerHTML = `
+          <svg class="theme-icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        `;
+        localStorage.setItem(KEY_THEME, 'dark');
+      }
+    }
+
+    function toggleTheme() {
+      const isCurrentlyLight = document.body.classList.contains('light-mode');
+      applyTheme(isCurrentlyLight ? 'dark' : 'light');
+    }
+
+    function resetProgress() {
+      if (confirm('Are you sure you want to reset all solved, bookmarked, and revisit queue data?')) {
+        solvedSet.clear();
+        bookmarkSet.clear();
+        revisitMap = {};
+        activityMap = {};
+        localStorage.removeItem(KEY_SOLVED);
+        localStorage.removeItem(KEY_BOOKMARKS);
+        localStorage.removeItem(KEY_REVISITS);
+        localStorage.removeItem('dsa_tracker_revisits');
+        localStorage.removeItem(KEY_ACTIVITY);
+        initUI();
+        showToast('All progress and streak data reset.');
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', initUI);
+  </script>
+</body>
+</html>
