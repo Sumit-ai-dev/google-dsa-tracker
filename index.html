@@ -1874,6 +1874,10 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 <span>Add New Profile</span>
               </button>
+              <button class="profile-dropdown-action" onclick="promptManagePassword()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <span>Password Settings</span>
+              </button>
             </div>
           </div>
 
@@ -2347,13 +2351,47 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
       </div>
       <div class="g-modal-body">
         <div style="font-size: 12.5px; color: var(--g-text-secondary); margin-bottom: 12px; line-height: 1.4;">
-          Enter a name for the new user profile (e.g. Rahul, Guest, Priya). Each profile maintains its own isolated study streak, completed problems, and bookmarks.
+          Each profile maintains its own isolated study streak, completed problems, and bookmarks.
         </div>
-        <input type="text" id="new-profile-name-input" class="g-modal-input" placeholder="Profile Name (e.g. Rahul, Guest, Priya)" onkeydown="if(event.key==='Enter') submitCreateProfile()">
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div>
+            <label class="g-field-label" style="display:block; margin-bottom: 4px;">Profile Name:</label>
+            <input type="text" id="new-profile-name-input" class="g-modal-input" placeholder="e.g. Rahul, Guest, Priya" onkeydown="if(event.key==='Enter') submitCreateProfile()">
+          </div>
+          <div>
+            <label class="g-field-label" style="display:block; margin-bottom: 4px;">Set Password / PIN (Optional):</label>
+            <input type="password" id="new-profile-pass-input" class="g-modal-input" placeholder="Leave blank for public profile" onkeydown="if(event.key==='Enter') submitCreateProfile()">
+          </div>
+        </div>
       </div>
       <div class="g-modal-actions">
         <button class="g-btn-outlined" onclick="closeProfileModal()">Cancel</button>
         <button class="g-btn-start-journey" onclick="submitCreateProfile()">Create & Switch</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Google Material 3 Unlock Profile Modal -->
+  <div class="g-modal-overlay" id="profile-unlock-modal-overlay" onclick="if(event.target===this) closeUnlockModal()">
+    <div class="g-modal-card">
+      <div class="g-modal-header">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--g-yellow)" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        <span id="unlock-modal-title">Unlock Profile</span>
+      </div>
+      <div class="g-modal-body">
+        <div style="font-size: 12.5px; color: var(--g-text-secondary); margin-bottom: 12px; line-height: 1.4;">
+          This profile is password protected. Enter password to access this profile.
+        </div>
+        <div>
+          <input type="password" id="unlock-profile-pass-input" class="g-modal-input" placeholder="Enter Password / PIN" onkeydown="if(event.key==='Enter') submitUnlockProfile()">
+          <div id="unlock-error-msg" style="color: var(--g-red); font-size: 11.5px; margin-top: 6px; display: none;">
+            Incorrect password. Access denied.
+          </div>
+        </div>
+      </div>
+      <div class="g-modal-actions">
+        <button class="g-btn-outlined" onclick="closeUnlockModal()">Cancel</button>
+        <button class="g-btn-start-journey" onclick="submitUnlockProfile()">Unlock & Switch</button>
       </div>
     </div>
   </div>
@@ -2582,6 +2620,60 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
       localStorage.setItem(getProfileKey('revisits'), JSON.stringify(revisitMap));
     }
 
+    let pendingSwitchProfileId = null;
+
+    function attemptSwitchProfile(profileId) {
+      if (profileId === activeProfileId) return;
+      const targetProf = profilesList.find(p => p.id === profileId);
+      if (!targetProf) return;
+
+      if (targetProf.pin) {
+        pendingSwitchProfileId = profileId;
+        const titleEl = document.getElementById('unlock-modal-title');
+        const inputEl = document.getElementById('unlock-profile-pass-input');
+        const errEl = document.getElementById('unlock-error-msg');
+        if (titleEl) titleEl.innerText = `Unlock Profile: ${targetProf.name}`;
+        if (inputEl) inputEl.value = '';
+        if (errEl) errEl.style.display = 'none';
+
+        const dropdown = document.getElementById('profile-dropdown-menu');
+        if (dropdown) dropdown.classList.remove('show');
+
+        const unlockModal = document.getElementById('profile-unlock-modal-overlay');
+        if (unlockModal) {
+          unlockModal.classList.add('show');
+          setTimeout(() => inputEl.focus(), 100);
+        }
+      } else {
+        const dropdown = document.getElementById('profile-dropdown-menu');
+        if (dropdown) dropdown.classList.remove('show');
+        switchProfile(profileId);
+      }
+    }
+
+    function closeUnlockModal() {
+      const unlockModal = document.getElementById('profile-unlock-modal-overlay');
+      if (unlockModal) unlockModal.classList.remove('show');
+      pendingSwitchProfileId = null;
+    }
+
+    function submitUnlockProfile() {
+      if (!pendingSwitchProfileId) return;
+      const targetProf = profilesList.find(p => p.id === pendingSwitchProfileId);
+      const inputEl = document.getElementById('unlock-profile-pass-input');
+      const errEl = document.getElementById('unlock-error-msg');
+      const enteredPass = inputEl ? inputEl.value : '';
+
+      if (targetProf && targetProf.pin === enteredPass) {
+        const targetId = pendingSwitchProfileId;
+        closeUnlockModal();
+        switchProfile(targetId);
+      } else {
+        if (errEl) errEl.style.display = 'block';
+        showToast('Incorrect password. Access denied.');
+      }
+    }
+
     function switchProfile(profileId) {
       activeProfileId = profileId;
       localStorage.setItem(KEY_ACTIVE_PROFILE_ID, profileId);
@@ -2594,15 +2686,15 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
 
     function promptCreateProfile() {
       const modal = document.getElementById('profile-modal-overlay');
-      const input = document.getElementById('new-profile-name-input');
+      const nameInput = document.getElementById('new-profile-name-input');
+      const passInput = document.getElementById('new-profile-pass-input');
       const dropdown = document.getElementById('profile-dropdown-menu');
       if (dropdown) dropdown.classList.remove('show');
       if (modal) {
         modal.classList.add('show');
-        if (input) {
-          input.value = '';
-          setTimeout(() => input.focus(), 100);
-        }
+        if (nameInput) nameInput.value = '';
+        if (passInput) passInput.value = '';
+        setTimeout(() => nameInput.focus(), 100);
       }
     }
 
@@ -2612,14 +2704,47 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
     }
 
     function submitCreateProfile() {
-      const input = document.getElementById('new-profile-name-input');
-      if (!input || !input.value.trim()) return;
-      const cleanName = input.value.trim();
+      const nameInput = document.getElementById('new-profile-name-input');
+      const passInput = document.getElementById('new-profile-pass-input');
+      if (!nameInput || !nameInput.value.trim()) return;
+
+      const cleanName = nameInput.value.trim();
+      const passVal = passInput ? passInput.value : '';
       const newId = 'user_' + Date.now();
-      profilesList.push({ id: newId, name: cleanName });
+
+      const newProf = { id: newId, name: cleanName };
+      if (passVal) {
+        newProf.pin = passVal;
+      }
+
+      profilesList.push(newProf);
       localStorage.setItem(KEY_PROFILES_LIST, JSON.stringify(profilesList));
       closeProfileModal();
       switchProfile(newId);
+    }
+
+    function promptManagePassword() {
+      const activeProf = profilesList.find(p => p.id === activeProfileId);
+      if (!activeProf) return;
+
+      const dropdown = document.getElementById('profile-dropdown-menu');
+      if (dropdown) dropdown.classList.remove('show');
+
+      const actionPrompt = confirm(`Password Settings for profile: "${activeProf.name}"\n\nCurrently Protected: ${activeProf.pin ? 'YES (Password Set)' : 'NO (Public Profile)'}\n\nClick OK to set/change password, or Cancel to leave unchanged.`);
+      if (!actionPrompt) return;
+
+      const newPass = prompt(`Enter new password for profile "${activeProf.name}" (leave blank to make profile public):`, activeProf.pin || '');
+      if (newPass === null) return;
+
+      if (newPass.trim()) {
+        activeProf.pin = newPass.trim();
+        showToast(`Password updated for profile: ${activeProf.name}`);
+      } else {
+        delete activeProf.pin;
+        showToast(`Password protection removed for profile: ${activeProf.name}`);
+      }
+      localStorage.setItem(KEY_PROFILES_LIST, JSON.stringify(profilesList));
+      renderProfileUI();
     }
 
     function toggleProfileMenu(e) {
@@ -2646,8 +2771,11 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
       const container = document.getElementById('profile-list-container');
       if (container) {
         container.innerHTML = profilesList.map(p => `
-          <div class="profile-option-item ${p.id === activeProfileId ? 'active' : ''}" onclick="switchProfile('${p.id}')">
-            <span>${p.name}</span>
+          <div class="profile-option-item ${p.id === activeProfileId ? 'active' : ''}" onclick="attemptSwitchProfile('${p.id}')">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span>${p.name}</span>
+              ${p.pin ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" title="Password Protected Profile"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>' : ''}
+            </div>
             ${p.id === activeProfileId ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
           </div>
         `).join('');
