@@ -211,6 +211,210 @@
       stroke-linejoin: round;
     }
 
+    /* Multi-User Profile Switcher Menu (Google Style) */
+    .profile-switcher-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-radius: var(--shape-pill);
+      padding: 4px 12px 4px 6px;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--g-text-primary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .profile-btn:hover {
+      background: var(--g-surface-hover);
+      border-color: var(--g-blue);
+    }
+
+    .profile-avatar-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--g-blue);
+      color: #1e1f20;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+    }
+
+    .profile-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      width: 210px;
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-radius: 12px;
+      padding: 8px 0;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      z-index: 1000;
+      display: none;
+    }
+
+    .profile-dropdown-menu.show {
+      display: block;
+    }
+
+    .profile-dropdown-header {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--g-text-tertiary);
+      text-transform: uppercase;
+      padding: 6px 14px;
+    }
+
+    .profile-option-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 14px;
+      font-size: 12.5px;
+      color: var(--g-text-primary);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .profile-option-item:hover {
+      background: var(--g-surface-variant);
+    }
+
+    .profile-option-item.active {
+      color: var(--g-blue);
+      font-weight: 600;
+    }
+
+    .profile-dropdown-divider {
+      height: 1px;
+      background: var(--g-border);
+      margin: 6px 0;
+    }
+
+    .profile-dropdown-action {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: transparent;
+      border: none;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--g-blue);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .profile-dropdown-action:hover {
+      background: var(--g-surface-variant);
+    }
+
+    /* Google Material 3 Profile Modal Dialog */
+    .g-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(2px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .g-modal-overlay.show {
+      display: flex;
+    }
+
+    .g-modal-card {
+      background: var(--g-surface);
+      border: 1px solid var(--g-border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      width: 360px;
+      max-width: 90vw;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .g-modal-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--g-text-primary);
+    }
+
+    .g-modal-input {
+      width: 100%;
+      box-sizing: border-box;
+      font-family: inherit;
+      font-size: 13px;
+      padding: 8px 12px;
+      background: var(--g-surface-variant);
+      border: 1px solid var(--g-border);
+      border-radius: 8px;
+      color: var(--g-text-primary);
+      outline: none;
+    }
+
+    .g-modal-input:focus {
+      border-color: var(--g-blue);
+    }
+
+    .g-modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    /* Start Journey Controls */
+    .g-btn-start-journey {
+      background: #1a73e8;
+      color: #ffffff;
+      border: none;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 7px 16px;
+      border-radius: var(--shape-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 6px rgba(26, 115, 232, 0.3);
+      transition: all 0.15s ease;
+      width: fit-content;
+    }
+
+    .g-btn-start-journey:hover {
+      background: #1557b0;
+      box-shadow: 0 4px 10px rgba(26, 115, 232, 0.4);
+      transform: translateY(-1px);
+    }
+
     /* Google Progress Indicator in Header */
     .progress-box {
       min-width: 200px;
@@ -1653,6 +1857,26 @@
             </div>
           </div>
 
+          <!-- Profile Switcher Dropdown (Google Style) -->
+          <div class="profile-switcher-wrapper">
+            <button class="profile-btn" id="profile-switcher-btn" onclick="toggleProfileMenu(event)" title="Switch or create profile">
+              <div class="profile-avatar-circle" id="profile-avatar">S</div>
+              <span id="profile-name-label">Sumit</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="profile-dropdown-menu" id="profile-dropdown-menu">
+              <div class="profile-dropdown-header">Switch Profile</div>
+              <div id="profile-list-container">
+                <!-- Dynamically populated -->
+              </div>
+              <div class="profile-dropdown-divider"></div>
+              <button class="profile-dropdown-action" onclick="promptCreateProfile()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Add New Profile</span>
+              </button>
+            </div>
+          </div>
+
           <!-- Theme Toggle -->
           <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()" title="Switch Day/Dark Theme">
             <span id="theme-icon-container">
@@ -1696,13 +1920,8 @@
     <!-- GOOGLE ACTIVITY DASHBOARD & MINI DOT MATRIX (IMAGE 2 COMPACT STYLE) -->
     <div class="google-activity-dashboard-card" id="activity-dashboard-card">
       <div class="activity-dash-left">
-        <div class="streak-header-badge">
-          <!-- Flame / Spark SVG -->
-          <svg class="streak-flame-icon" viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2 0 .74-.4 1.38-1 1.72v2.34C16.89 8.56 20 12.01 20 16.14 20 20.48 16.42 24 12 24s-8-3.52-8-7.86c0-4.13 3.11-7.58 7-8.08V5.72C10.4 5.38 10 4.74 10 4c0-1.1.9-2 2-2zm0 10c-2.21 0-4 1.79-4 4 0 2.21 1.79 4 4 4s4-1.79 4-4c0-2.21-1.79-4-4-4z"/></svg>
-          <span id="activity-streak-val">0 Day Streak</span>
-        </div>
-        <div class="activity-substat" id="activity-today-target">Today: 0 / 2 Solved</div>
-        <div class="activity-substat" id="activity-stage-info" style="color: var(--g-blue); font-weight: 500;">Current: Day 1 • Foundations & Arrays</div>
+        <!-- Dynamic Journey Status Area (Standby with Start Button OR Active Streak) -->
+        <div id="journey-dash-status-area"></div>
 
         <div class="dash-quick-controls">
           <div class="dash-field-row">
@@ -2119,6 +2338,26 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
     </div>
   </div>
 
+  <!-- Google Material 3 Profile Creation Modal -->
+  <div class="g-modal-overlay" id="profile-modal-overlay" onclick="if(event.target===this) closeProfileModal()">
+    <div class="g-modal-card">
+      <div class="g-modal-header">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--g-blue)" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span>Create New User Profile</span>
+      </div>
+      <div class="g-modal-body">
+        <div style="font-size: 12.5px; color: var(--g-text-secondary); margin-bottom: 12px; line-height: 1.4;">
+          Enter a name for the new user profile (e.g. Rahul, Guest, Priya). Each profile maintains its own isolated study streak, completed problems, and bookmarks.
+        </div>
+        <input type="text" id="new-profile-name-input" class="g-modal-input" placeholder="Profile Name (e.g. Rahul, Guest, Priya)" onkeydown="if(event.key==='Enter') submitCreateProfile()">
+      </div>
+      <div class="g-modal-actions">
+        <button class="g-btn-outlined" onclick="closeProfileModal()">Cancel</button>
+        <button class="g-btn-start-journey" onclick="submitCreateProfile()">Create & Switch</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Google Material 3 Snackbar / Toast -->
   <div id="g-snackbar">Notification</div>
 
@@ -2238,15 +2477,6 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
       }
     ];
 
-    // Storage Keys
-    const KEY_SOLVED = 'dsa_tracker_solved';
-    const KEY_BOOKMARKS = 'dsa_tracker_bookmarks';
-    const KEY_REVISITS = 'dsa_tracker_revisits_v2';
-    const KEY_THEME = 'dsa_tracker_theme';
-    const KEY_START_DATE = 'dsa_calendar_start_date';
-    const KEY_PACE = 'dsa_calendar_pace';
-    const KEY_ACTIVITY = 'dsa_daily_activity';
-
     // Local Date Helpers (avoid UTC offset day-shift bugs)
     function formatLocalDate(d = new Date()) {
       const year = d.getFullYear();
@@ -2261,40 +2491,177 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
       return new Date(parts[0], parts[1] - 1, parts[2], 0, 0, 0, 0);
     }
 
-    let solvedSet = new Set(JSON.parse(localStorage.getItem(KEY_SOLVED) || '[]'));
-    let bookmarkSet = new Set(JSON.parse(localStorage.getItem(KEY_BOOKMARKS) || '[]'));
+    /* ========================================================
+       MULTI-USER PROFILES & JOURNEY STANDBY ENGINE
+       ======================================================== */
+    const KEY_PROFILES_LIST = 'dsa_profiles_list_v1';
+    const KEY_ACTIVE_PROFILE_ID = 'dsa_active_profile_id_v1';
+    const KEY_THEME = 'dsa_tracker_theme';
 
-    // Structured Spaced Repetition Object: { [id]: { stage: 1|2|3|4, dueDate: timestamp, lastSolved: timestamp } }
+    let profilesList = [
+      { id: 'sumit', name: 'Sumit' }
+    ];
+    let activeProfileId = 'sumit';
+    let journeyStarted = false;
+
+    let solvedSet = new Set();
+    let bookmarkSet = new Set();
     let revisitMap = {};
-    try {
-      revisitMap = JSON.parse(localStorage.getItem(KEY_REVISITS) || '{}');
-    } catch (e) {
-      revisitMap = {};
-    }
-
-    // Daily Activity Map for Streak Tracking: { "YYYY-MM-DD": [problemId1, problemId2] }
     let activityMap = {};
-    try {
-      activityMap = JSON.parse(localStorage.getItem(KEY_ACTIVITY) || '{}');
-    } catch (e) {
-      activityMap = {};
+
+    let calStartDateStr = formatLocalDate();
+    let calPace = 2;
+    let calViewDate = new Date();
+
+    function getProfileKey(baseKey) {
+      return `dsa_user_${activeProfileId}_${baseKey}`;
     }
 
-    // Bootstrap activity map if solvedSet has items
-    if (solvedSet.size > 0 && Object.keys(activityMap).length === 0) {
-      const todayStr = formatLocalDate();
-      activityMap[todayStr] = [...solvedSet];
-      localStorage.setItem(KEY_ACTIVITY, JSON.stringify(activityMap));
+    function initProfileSystem() {
+      try {
+        const storedProfiles = localStorage.getItem(KEY_PROFILES_LIST);
+        if (storedProfiles) {
+          profilesList = JSON.parse(storedProfiles);
+        } else {
+          localStorage.setItem(KEY_PROFILES_LIST, JSON.stringify(profilesList));
+        }
+      } catch (e) {
+        profilesList = [{ id: 'sumit', name: 'Sumit' }];
+      }
+
+      activeProfileId = localStorage.getItem(KEY_ACTIVE_PROFILE_ID) || 'sumit';
+      if (!profilesList.some(p => p.id === activeProfileId)) {
+        activeProfileId = profilesList[0]?.id || 'sumit';
+      }
+
+      loadActiveProfileData();
+      renderProfileUI();
+    }
+
+    function loadActiveProfileData() {
+      const keySolved = getProfileKey('solved');
+      const keyBookmarks = getProfileKey('bookmarks');
+      const keyRevisits = getProfileKey('revisits');
+      const keyStartDate = getProfileKey('start_date');
+      const keyPace = getProfileKey('pace');
+      const keyActivity = getProfileKey('activity');
+      const keyStarted = getProfileKey('journey_started');
+
+      // Migration check: if default user has legacy storage data, copy over to sumit profile
+      if (activeProfileId === 'sumit' && !localStorage.getItem(keySolved) && localStorage.getItem('dsa_tracker_solved')) {
+        solvedSet = new Set(JSON.parse(localStorage.getItem('dsa_tracker_solved') || '[]'));
+        bookmarkSet = new Set(JSON.parse(localStorage.getItem('dsa_tracker_bookmarks') || '[]'));
+        try { revisitMap = JSON.parse(localStorage.getItem('dsa_tracker_revisits_v2') || '{}'); } catch(e) { revisitMap = {}; }
+        try { activityMap = JSON.parse(localStorage.getItem('dsa_daily_activity') || '{}'); } catch(e) { activityMap = {}; }
+        calStartDateStr = localStorage.getItem('dsa_calendar_start_date') || formatLocalDate();
+        calPace = parseInt(localStorage.getItem('dsa_calendar_pace') || '2', 10);
+        journeyStarted = true;
+        saveActiveProfileData();
+      } else {
+        solvedSet = new Set(JSON.parse(localStorage.getItem(keySolved) || '[]'));
+        bookmarkSet = new Set(JSON.parse(localStorage.getItem(keyBookmarks) || '[]'));
+        try { revisitMap = JSON.parse(localStorage.getItem(keyRevisits) || '{}'); } catch (e) { revisitMap = {}; }
+        try { activityMap = JSON.parse(localStorage.getItem(keyActivity) || '{}'); } catch (e) { activityMap = {}; }
+        journeyStarted = localStorage.getItem(keyStarted) === 'true';
+        calStartDateStr = localStorage.getItem(keyStartDate) || formatLocalDate();
+        calPace = parseInt(localStorage.getItem(keyPace) || '2', 10);
+      }
+    }
+
+    function saveActiveProfileData() {
+      localStorage.setItem(getProfileKey('solved'), JSON.stringify([...solvedSet]));
+      localStorage.setItem(getProfileKey('bookmarks'), JSON.stringify([...bookmarkSet]));
+      localStorage.setItem(getProfileKey('revisits'), JSON.stringify(revisitMap));
+      localStorage.setItem(getProfileKey('activity'), JSON.stringify(activityMap));
+      localStorage.setItem(getProfileKey('journey_started'), journeyStarted ? 'true' : 'false');
+      localStorage.setItem(getProfileKey('start_date'), calStartDateStr);
+      localStorage.setItem(getProfileKey('pace'), calPace.toString());
     }
 
     function saveRevisits() {
-      localStorage.setItem(KEY_REVISITS, JSON.stringify(revisitMap));
+      localStorage.setItem(getProfileKey('revisits'), JSON.stringify(revisitMap));
     }
 
-    // Calendar State
-    let calStartDateStr = localStorage.getItem(KEY_START_DATE) || formatLocalDate();
-    let calPace = parseInt(localStorage.getItem(KEY_PACE) || '2', 10);
-    let calViewDate = new Date();
+    function switchProfile(profileId) {
+      activeProfileId = profileId;
+      localStorage.setItem(KEY_ACTIVE_PROFILE_ID, profileId);
+      loadActiveProfileData();
+      renderProfileUI();
+      initUI();
+      const prof = profilesList.find(p => p.id === profileId);
+      showToast(`Switched profile to: ${prof ? prof.name : profileId}`);
+    }
+
+    function promptCreateProfile() {
+      const modal = document.getElementById('profile-modal-overlay');
+      const input = document.getElementById('new-profile-name-input');
+      const dropdown = document.getElementById('profile-dropdown-menu');
+      if (dropdown) dropdown.classList.remove('show');
+      if (modal) {
+        modal.classList.add('show');
+        if (input) {
+          input.value = '';
+          setTimeout(() => input.focus(), 100);
+        }
+      }
+    }
+
+    function closeProfileModal() {
+      const modal = document.getElementById('profile-modal-overlay');
+      if (modal) modal.classList.remove('show');
+    }
+
+    function submitCreateProfile() {
+      const input = document.getElementById('new-profile-name-input');
+      if (!input || !input.value.trim()) return;
+      const cleanName = input.value.trim();
+      const newId = 'user_' + Date.now();
+      profilesList.push({ id: newId, name: cleanName });
+      localStorage.setItem(KEY_PROFILES_LIST, JSON.stringify(profilesList));
+      closeProfileModal();
+      switchProfile(newId);
+    }
+
+    function toggleProfileMenu(e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('profile-dropdown-menu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    document.addEventListener('click', function(e) {
+      const wrapper = document.querySelector('.profile-switcher-wrapper');
+      if (wrapper && !wrapper.contains(e.target)) {
+        const menu = document.getElementById('profile-dropdown-menu');
+        if (menu) menu.classList.remove('show');
+      }
+    });
+
+    function renderProfileUI() {
+      const activeProf = profilesList.find(p => p.id === activeProfileId) || { id: activeProfileId, name: 'Sumit' };
+      const avatarEl = document.getElementById('profile-avatar');
+      const nameEl = document.getElementById('profile-name-label');
+      if (avatarEl) avatarEl.innerText = activeProf.name.charAt(0).toUpperCase();
+      if (nameEl) nameEl.innerText = activeProf.name;
+
+      const container = document.getElementById('profile-list-container');
+      if (container) {
+        container.innerHTML = profilesList.map(p => `
+          <div class="profile-option-item ${p.id === activeProfileId ? 'active' : ''}" onclick="switchProfile('${p.id}')">
+            <span>${p.name}</span>
+            ${p.id === activeProfileId ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
+          </div>
+        `).join('');
+      }
+    }
+
+    function startDSAJourney() {
+      journeyStarted = true;
+      calStartDateStr = formatLocalDate();
+      saveActiveProfileData();
+      document.getElementById('cal-start-date').value = calStartDateStr;
+      refreshTrackerViews();
+      showToast("🚀 DSA Journey Started! Day 1 is set to today.");
+    }
 
     // Calculate Spaced Repetition status for problem
     function getRevisitInfo(id) {
@@ -2438,6 +2805,8 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
     }
 
     function initUI() {
+      initProfileSystem();
+
       // 1. Build All Phases in Tab 1
       const mainContainer = document.getElementById('all-phases-container');
       mainContainer.innerHTML = '';
@@ -2550,7 +2919,7 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
           if (activityMap[d].length === 0) delete activityMap[d];
         });
       }
-      localStorage.setItem(KEY_ACTIVITY, JSON.stringify(activityMap));
+      saveActiveProfileData();
     }
 
     // Calculate consecutive active days streak
@@ -2602,7 +2971,7 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
           showToast('Marked as solved! Streak updated.');
         }
       }
-      localStorage.setItem(KEY_SOLVED, JSON.stringify([...solvedSet]));
+      saveActiveProfileData();
       updateMetrics();
       syncRowState(id);
       renderAuxiliaryTabs();
@@ -2617,9 +2986,8 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
         bookmarkSet.add(id);
         showToast('Bookmarked question.');
       }
-      localStorage.setItem(KEY_BOOKMARKS, JSON.stringify([...bookmarkSet]));
+      saveActiveProfileData();
       renderAuxiliaryTabs();
-      updateMetrics();
       syncRowState(id);
     }
 
@@ -2840,20 +3208,56 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
     function onStartDateChange(val) {
       if (!val) return;
       calStartDateStr = val;
-      localStorage.setItem(KEY_START_DATE, val);
+      saveActiveProfileData();
       refreshTrackerViews();
       showToast('Start Point updated! Study roadmap recalculated.');
     }
 
     function onPaceChange(val) {
       calPace = parseInt(val, 10);
-      localStorage.setItem(KEY_PACE, val);
+      saveActiveProfileData();
       refreshTrackerViews();
       showToast(`Pace set to ${calPace} problem${calPace > 1 ? 's' : ''} per day.`);
     }
 
     // 1. RENDER AUTHENTIC 28-DAY (4-WEEK) ACTIVITY MATRIX (EXACTLY MATCHING IMAGE 2)
     function renderActivityDotMatrix() {
+      const dashStatusArea = document.getElementById('journey-dash-status-area');
+      const { streak, solvedTodayCount } = calculateStreak();
+      const expectedDayNum = getExpectedDayNumber();
+
+      if (!journeyStarted) {
+        if (dashStatusArea) {
+          dashStatusArea.innerHTML = `
+            <div class="streak-header-badge" style="background: var(--g-surface-variant); color: var(--g-text-secondary); border-color: var(--g-border);">
+              <span>Standby Mode &bull; Journey Not Started</span>
+            </div>
+            <div class="activity-substat" style="margin-top: 4px; color: var(--g-text-secondary);">
+              Ready to begin your preparation? Click below to activate Day 1.
+            </div>
+            <button class="g-btn-start-journey" onclick="startDSAJourney()" style="margin-top: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              <span>Start My DSA Journey</span>
+            </button>
+          `;
+        }
+      } else {
+        if (dashStatusArea) {
+          let todaySubtext = `Today: ${solvedTodayCount} / ${calPace} Solved (${calPace - solvedTodayCount} remaining)`;
+          if (solvedTodayCount >= calPace) {
+            todaySubtext = `Today: ${solvedTodayCount} / ${calPace} Solved <span style="color:var(--g-green); font-weight:700;">(Target Met)</span>`;
+          }
+          dashStatusArea.innerHTML = `
+            <div class="streak-header-badge">
+              <svg class="streak-flame-icon" viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2 0 .74-.4 1.38-1 1.72v2.34C16.89 8.56 20 12.01 20 16.14 20 20.48 16.42 24 12 24s-8-3.52-8-7.86c0-4.13 3.11-7.58 7-8.08V5.72C10.4 5.38 10 4.74 10 4c0-1.1.9-2 2-2zm0 10c-2.21 0-4 1.79-4 4 0 2.21 1.79 4 4 4s4-1.79 4-4c0-2.21-1.79-4-4-4z"/></svg>
+              <span id="activity-streak-val">${streak} Day Streak</span>
+            </div>
+            <div class="activity-substat" id="activity-today-target">${todaySubtext}</div>
+            <div class="activity-substat" id="activity-stage-info" style="color: var(--g-blue); font-weight: 500;">Current: Day ${expectedDayNum} of ${Math.ceil(57 / calPace)} Scheduled</div>
+          `;
+        }
+      }
+
       const grid = document.getElementById('activity-dots-grid');
       if (!grid) return;
       grid.innerHTML = '';
@@ -2861,27 +3265,6 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const todayStr = formatLocalDate(today);
-
-      // Streak stats
-      const { streak, solvedTodayCount } = calculateStreak();
-      const streakValEl = document.getElementById('activity-streak-val');
-      if (streakValEl) streakValEl.innerText = `${streak} Day Streak`;
-
-      const todayTargetEl = document.getElementById('activity-today-target');
-      if (todayTargetEl) {
-        if (solvedTodayCount >= calPace) {
-          todayTargetEl.innerHTML = `Today: ${solvedTodayCount} / ${calPace} Solved <span style="color:var(--g-green); font-weight:700;">(Target Met)</span>`;
-        } else {
-          todayTargetEl.innerHTML = `Today: ${solvedTodayCount} / ${calPace} Solved (${calPace - solvedTodayCount} remaining)`;
-        }
-      }
-
-      // Find current day position in curriculum
-      const expectedDayNum = getExpectedDayNumber();
-      const stageInfoEl = document.getElementById('activity-stage-info');
-      if (stageInfoEl) {
-        stageInfoEl.innerText = `Current: Day ${expectedDayNum} of ${Math.ceil(57 / calPace)} Scheduled`;
-      }
 
       // Generate 28 days (4 weeks) leading up to end of current week
       const currentDayOfWeek = (today.getDay() + 6) % 7; // 0 = Mon, 6 = Sun
@@ -2998,6 +3381,29 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
       const container = document.getElementById('recovery-assistant-container');
       if (!container) return;
 
+      if (!journeyStarted) {
+        container.innerHTML = `
+          <div class="recovery-assistant-card" style="border-left: 4px solid var(--g-blue); background: rgba(26, 115, 232, 0.06);">
+            <div class="recovery-info-left">
+              <div class="recovery-title" style="color: var(--g-blue);">
+                <svg style="width:18px; height:18px; fill:currentColor;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h2v2h-2v-2zm0-10h2v8h-2V6z"/></svg>
+                Standby Mode &bull; Journey Not Activated
+              </div>
+              <div class="recovery-desc">
+                You have not officially started your DSA Journey yet. Explore the syllabus, preview topics, or switch user profiles above. When you are prepared to begin, click <strong>"Start My DSA Journey"</strong> to lock Day 1 to today's date.
+              </div>
+            </div>
+            <div class="recovery-actions-right">
+              <button class="g-btn-start-journey" onclick="startDSAJourney()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span>Start My DSA Journey</span>
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
       const { days } = getJourneySchedule();
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -3106,7 +3512,7 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
     function recalibrateFromToday() {
       const todayStr = formatLocalDate();
       calStartDateStr = todayStr;
-      localStorage.setItem(KEY_START_DATE, todayStr);
+      saveActiveProfileData();
       document.getElementById('cal-start-date').value = todayStr;
 
       refreshTrackerViews();
@@ -3121,7 +3527,7 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
       const newStartStr = formatLocalDate(curStart);
 
       calStartDateStr = newStartStr;
-      localStorage.setItem(KEY_START_DATE, newStartStr);
+      saveActiveProfileData();
       document.getElementById('cal-start-date').value = newStartStr;
 
       refreshTrackerViews();
@@ -3354,18 +3760,15 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
     }
 
     function resetProgress() {
-      if (confirm('Are you sure you want to reset all solved, bookmarked, and revisit queue data?')) {
+      if (confirm('Are you sure you want to reset all solved, bookmarked, and revisit queue data for this profile?')) {
         solvedSet.clear();
         bookmarkSet.clear();
         revisitMap = {};
         activityMap = {};
-        localStorage.removeItem(KEY_SOLVED);
-        localStorage.removeItem(KEY_BOOKMARKS);
-        localStorage.removeItem(KEY_REVISITS);
-        localStorage.removeItem('dsa_tracker_revisits');
-        localStorage.removeItem(KEY_ACTIVITY);
+        journeyStarted = false;
+        saveActiveProfileData();
         initUI();
-        showToast('All progress and streak data reset.');
+        showToast('All progress and streak data reset for current profile.');
       }
     }
 
