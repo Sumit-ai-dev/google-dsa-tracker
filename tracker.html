@@ -93,6 +93,17 @@
       -webkit-font-smoothing: antialiased;
       padding-bottom: 96px;
       transition: background-color 0.2s ease, color 0.2s ease;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    input, textarea {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
     }
 
     /* Google 4-Color Accent Line */
@@ -2396,6 +2407,19 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
     </div>
   </div>
 
+  <!-- Google Material 3 DevTools Security Warning Overlay -->
+  <div class="g-modal-overlay" id="devtools-warning-overlay" style="z-index: 3000;">
+    <div class="g-modal-card" style="border-left: 4px solid var(--g-red); text-align: center; align-items: center; max-width: 420px; padding: 24px;">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--g-red)" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      <div style="font-size: 16px; font-weight: 700; color: var(--g-text-primary); margin-top: 6px;">
+        Developer Tools Inspection Blocked
+      </div>
+      <div style="font-size: 12.5px; color: var(--g-text-secondary); line-height: 1.5; margin-top: 4px;">
+        Developer Tools inspection and source code copying are disabled on this application for security. Please close DevTools to resume your DSA practice.
+      </div>
+    </div>
+  </div>
+
   <!-- Google Material 3 Snackbar / Toast -->
   <div id="g-snackbar">Notification</div>
 
@@ -3948,6 +3972,87 @@ exists = (idx &lt; len(arr) and arr[idx] == 25)</pre>
         showToast('All progress and streak data reset for current profile.');
       }
     }
+
+    /* ========================================================
+       DEVTOOLS ANTI-INSPECTION & COPY PROTECTION SHIELD
+       ======================================================== */
+    // 1. Disable Right Click Context Menu
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      showToast('Right-click context menu disabled for security.');
+      return false;
+    });
+
+    // 2. Disable DevTools & Inspect Keyboard Shortcuts
+    document.addEventListener('keydown', function(e) {
+      // F12
+      if (e.key === 'F12' || e.keyCode === 123) {
+        e.preventDefault();
+        showToast('Developer Tools inspection disabled.');
+        return false;
+      }
+
+      // Ctrl+Shift+I / Cmd+Option+I (Inspect Element)
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.keyCode === 73)) {
+        e.preventDefault();
+        showToast('Inspect Element shortcut disabled.');
+        return false;
+      }
+
+      // Ctrl+Shift+J / Cmd+Option+J (Console)
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'J' || e.key === 'j' || e.keyCode === 74)) {
+        e.preventDefault();
+        showToast('Console shortcut disabled.');
+        return false;
+      }
+
+      // Ctrl+Shift+C / Cmd+Option+C (Select Element)
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'C' || e.key === 'c' || e.keyCode === 67)) {
+        e.preventDefault();
+        showToast('Select Element shortcut disabled.');
+        return false;
+      }
+
+      // Ctrl+U / Cmd+Option+U (View Source)
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
+        e.preventDefault();
+        showToast('View Source disabled.');
+        return false;
+      }
+
+      // Ctrl+S / Cmd+S (Save Page)
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) {
+        e.preventDefault();
+        showToast('Page saving disabled.');
+        return false;
+      }
+    });
+
+    // 3. DevTools Window Ratio & Dimension Detection
+    function detectDevToolsWindow() {
+      const threshold = 160;
+      const widthDiff = window.outerWidth - window.innerWidth > threshold;
+      const heightDiff = window.outerHeight - window.innerHeight > threshold;
+      const warningOverlay = document.getElementById('devtools-warning-overlay');
+
+      if (widthDiff || heightDiff) {
+        if (warningOverlay) warningOverlay.classList.add('show');
+      } else {
+        if (warningOverlay) warningOverlay.classList.remove('show');
+      }
+    }
+    window.addEventListener('resize', detectDevToolsWindow);
+
+    // 4. Anti-Debugger Loop
+    setInterval(function() {
+      const startTime = performance.now();
+      (function() {}.constructor("debugger")());
+      const endTime = performance.now();
+      if (endTime - startTime > 100) {
+        const warningOverlay = document.getElementById('devtools-warning-overlay');
+        if (warningOverlay) warningOverlay.classList.add('show');
+      }
+    }, 1500);
 
     window.addEventListener('DOMContentLoaded', initUI);
   </script>
